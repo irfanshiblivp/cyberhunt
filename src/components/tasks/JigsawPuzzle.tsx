@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { Copy, Check, Puzzle } from 'lucide-react';
+import { Copy, Check, Puzzle, Image } from 'lucide-react';
 import { sounds } from '../SoundEngine';
+import defaultPuzzleImg from '../../assets/puzzle.jpg';
 
 interface JigsawPuzzleProps {
   onSolve?: (keyword: string) => void;
@@ -14,8 +15,9 @@ const ROWS = 3;
 export const JigsawPuzzle: React.FC<JigsawPuzzleProps> = ({
   onSolve,
   targetWord = 'SzdtUS00dk5wLVgy',
-  imageSrc = '/puzzle.jpg'
+  imageSrc,
 }) => {
+  const activeImg = imageSrc || defaultPuzzleImg || '/puzzle.jpg';
   const [pieces, setPieces] = useState<number[]>([]);
   const [selectedIdx, setSelectedIdx] = useState<number | null>(null);
   const [draggedIdx, setDraggedIdx] = useState<number | null>(null);
@@ -123,7 +125,7 @@ export const JigsawPuzzle: React.FC<JigsawPuzzleProps> = ({
                 onDrop={(e) => handleDrop(e, currentPosIdx)}
                 onClick={() => handlePieceClick(currentPosIdx)}
                 style={{
-                  backgroundImage: `url('${imageSrc}')`,
+                  backgroundImage: `url('${activeImg}')`,
                   backgroundSize: `${COLS * 100}% ${ROWS * 100}%`,
                   backgroundPosition: `${posX}% ${posY}%`
                 }}
