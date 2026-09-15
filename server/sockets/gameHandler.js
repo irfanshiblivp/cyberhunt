@@ -1,5 +1,7 @@
 import { db } from '../db.js';
 
+const COLOR_PALETTE = ['cyan', 'red', 'lime', 'purple', 'orange', 'yellow', 'pink', 'blue', 'green', 'white', 'black', 'brown'];
+
 let lobbyPlayers = {};
 
 export function setupSocketHandlers(io) {
@@ -24,14 +26,20 @@ export function setupSocketHandlers(io) {
           }
         });
 
+        // Pick distinct color based on active team count
+        const activeCount = Object.keys(lobbyPlayers).length;
+        const assignedColor = playerData.color && playerData.color !== 'cyan' 
+          ? playerData.color 
+          : COLOR_PALETTE[activeCount % COLOR_PALETTE.length];
+
         lobbyPlayers[socket.id] = {
           socketId: socket.id,
           teamId: playerData.teamId,
           teamCode: playerData.teamCode || 'TEAM',
           teamName: playerData.teamName || 'Crewmate',
-          color: playerData.color || 'cyan',
-          x: playerData.x || (40 + Math.random() * 20),
-          y: playerData.y || (50 + Math.random() * 20)
+          color: assignedColor,
+          x: playerData.x || (20 + Math.random() * 60),
+          y: playerData.y || (20 + Math.random() * 60)
         };
         io.to('lobby_room').emit('lobby:players_update', Object.values(lobbyPlayers));
       }
@@ -39,8 +47,8 @@ export function setupSocketHandlers(io) {
 
     socket.on('lobby:move', ({ x, y }) => {
       if (lobbyPlayers[socket.id]) {
-        lobbyPlayers[socket.id].x = Math.max(12, Math.min(88, x));
-        lobbyPlayers[socket.id].y = Math.max(22, Math.min(82, y));
+        lobbyPlayers[socket.id].x = Math.max(5, Math.min(95, x));
+        lobbyPlayers[socket.id].y = Math.max(15, Math.min(88, y));
         io.to('lobby_room').emit('lobby:players_update', Object.values(lobbyPlayers));
       }
     });

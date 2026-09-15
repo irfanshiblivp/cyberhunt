@@ -22,22 +22,10 @@ interface PlayerPosition {
   y: number;
 }
 
-// Dropship Obstacle Bounding Boxes for Real-Time Collision Engine (% coordinates)
-const OBSTACLES = [
-  // Laptop Table (Center Left)
-  { minX: 28, maxX: 42, minY: 32, maxY: 52 },
-  // Emergency Stand (Center Right)
-  { minX: 58, maxX: 72, minY: 32, maxY: 52 },
-  // Bottom Cargo Crate
-  { minX: 18, maxX: 38, minY: 62, maxY: 78 },
-  // Top Passenger Chairs Row Wall
-  { minX: 10, maxX: 90, minY: 0, maxY: 25 }
-];
-
 export const LobbyPage: React.FC<LobbyPageProps> = ({ team, totalTeamsReady, onLogout }) => {
   const [isMuted, setIsMuted] = useState(sounds.muted);
   const [players, setPlayers] = useState<PlayerPosition[]>([]);
-  const [myPos, setMyPos] = useState({ x: 50, y: 60 });
+  const [myPos, setMyPos] = useState({ x: 50, y: 55 });
   const [copiedCode, setCopiedCode] = useState(false);
 
   // Joystick & touch control state
@@ -67,20 +55,6 @@ export const LobbyPage: React.FC<LobbyPageProps> = ({ team, totalTeamsReady, onL
     setTimeout(() => setCopiedCode(false), 2000);
   };
 
-  // Collision Checking Helper Function
-  const isColliding = (x: number, y: number): boolean => {
-    // Outer boundary collision
-    if (x < 14 || x > 86 || y < 26 || y > 82) return true;
-
-    // Obstacle box collision
-    for (const obs of OBSTACLES) {
-      if (x >= obs.minX && x <= obs.maxX && y >= obs.minY && y <= obs.maxY) {
-        return true;
-      }
-    }
-    return false;
-  };
-
   // 1. Socket.IO Multiplayer Lobby Sync & Reconnection
   useEffect(() => {
     const socket = io(window.location.origin, {
@@ -101,9 +75,9 @@ export const LobbyPage: React.FC<LobbyPageProps> = ({ team, totalTeamsReady, onL
 
     socket.on('lobby:players_update', (updatedPlayers: PlayerPosition[]) => {
       setPlayers(updatedPlayers);
-      // Sync local player spawn if assigned by server
+      // Sync local player position if assigned by server
       const me = updatedPlayers.find(p => p.teamId === team?.id);
-      if (me && (myPosRef.current.x === 50 && myPosRef.current.y === 60)) {
+      if (me && (myPosRef.current.x === 50 && myPosRef.current.y === 55)) {
         setMyPos({ x: me.x, y: me.y });
       }
     });
@@ -113,27 +87,15 @@ export const LobbyPage: React.FC<LobbyPageProps> = ({ team, totalTeamsReady, onL
     };
   }, [team?.id, teamCode, teamName, teamColor]);
 
-  // Movement handler with collision checking
+  // Movement handler - completely open room
   const moveMyPlayer = (newX: number, newY: number) => {
-    let targetX = Math.max(14, Math.min(86, newX));
-    let targetY = Math.max(26, Math.min(82, newY));
+    let targetX = Math.max(6, Math.min(94, newX));
+    let targetY = Math.max(16, Math.min(86, newY));
 
-    // Try full step first
-    if (!isColliding(targetX, targetY)) {
-      setMyPos({ x: targetX, y: targetY });
-    } else {
-      // Try sliding along X axis only
-      if (!isColliding(targetX, myPosRef.current.y)) {
-        setMyPos({ x: targetX, y: myPosRef.current.y });
-      } 
-      // Try sliding along Y axis only
-      else if (!isColliding(myPosRef.current.x, targetY)) {
-        setMyPos({ x: myPosRef.current.x, y: targetY });
-      }
-    }
+    setMyPos({ x: targetX, y: targetY });
 
     if (socketRef.current) {
-      socketRef.current.emit('lobby:move', { x: myPosRef.current.x, y: myPosRef.current.y });
+      socketRef.current.emit('lobby:move', { x: targetX, y: targetY });
     }
   };
 
@@ -294,31 +256,9 @@ export const LobbyPage: React.FC<LobbyPageProps> = ({ team, totalTeamsReady, onL
               </div>
             </div>
 
-            {/* DROPSHIP FLOOR GRID PATTERN WITH COLLISION OBJECTS */}
+            {/* OPEN DROPSHIP FLOOR GRID ARENA */}
             <div className="flex-1 relative bg-[linear-gradient(to_right,#26323e_1px,transparent_1px),linear-gradient(to_bottom,#26323e_1px,transparent_1px)] bg-[size:40px_40px]">
               
-              {/* CENTER OBSTACLES WITH SOLID COLLISION BOUNDS */}
-              {/* Laptop Table (Center Left) */}
-              <div className="absolute top-[35%] left-[32%] w-16 h-14 bg-[#233529] border-3 border-[#344d3d] rounded-xl shadow-2xl flex flex-col items-center justify-center z-10 pointer-events-none">
-                <div className="w-8 h-6 bg-[#122017] border border-[#406850] rounded flex items-center justify-center">
-                  <div className="w-6 h-4 bg-emerald-400/80 rounded animate-pulse flex items-center justify-center text-[7px] font-bold text-black">
-                    CONFIG
-                  </div>
-                </div>
-              </div>
-
-              {/* Emergency Button Box (Center Right) */}
-              <div className="absolute top-[35%] right-[32%] w-14 h-14 bg-[#2e3742] border-3 border-[#445263] rounded-xl shadow-2xl flex items-center justify-center z-10 pointer-events-none">
-                <div className="w-8 h-8 rounded-full bg-rose-600 border-2 border-white shadow-[0_0_12px_#e11d48] flex items-center justify-center">
-                  <div className="w-3 h-3 rounded-full bg-white animate-ping"></div>
-                </div>
-              </div>
-
-              {/* Bottom Large Cargo Crate */}
-              <div className="absolute bottom-[10%] left-[22%] w-24 h-14 bg-[#1f313a] border-3 border-[#324b58] rounded-xl shadow-2xl z-10 pointer-events-none flex items-center justify-center">
-                <span className="text-[10px] font-mono-code font-bold text-cyan-400/70 tracking-widest">CYBER CARGO</span>
-              </div>
-
               {/* RENDERING MULTIPLAYER CREWMATE PLAYERS */}
               {players.map((p) => {
                 const isMe = p.teamId === team?.id;

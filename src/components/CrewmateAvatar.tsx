@@ -16,6 +16,11 @@ const colorMap: Record<string, { body: string; shadow: string; visor: string }> 
   orange: { body: '#ef7d0d', shadow: '#a65002', visor: '#99f6ff' },
   yellow: { body: '#f5f557', shadow: '#adad18', visor: '#99f6ff' },
   pink: { body: '#ed54ba', shadow: '#a8267e', visor: '#99f6ff' },
+  blue: { body: '#132ed1', shadow: '#09158e', visor: '#99f6ff' },
+  green: { body: '#117f2d', shadow: '#0a4d1b', visor: '#99f6ff' },
+  white: { body: '#d6e0f0', shadow: '#8394a7', visor: '#99f6ff' },
+  black: { body: '#3f474e', shadow: '#1e2124', visor: '#99f6ff' },
+  brown: { body: '#71491e', shadow: '#472d10', visor: '#99f6ff' },
 };
 
 export const CrewmateAvatar: React.FC<CrewmateAvatarProps> = ({
