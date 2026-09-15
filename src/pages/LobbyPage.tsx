@@ -57,7 +57,7 @@ export const LobbyPage: React.FC<LobbyPageProps> = ({ team, totalTeamsReady, onL
 
   // 1. Socket.IO Multiplayer Lobby Sync & Reconnection
   useEffect(() => {
-    const socket = io(window.location.origin, {
+    const socket = io('/', {
       transports: ['websocket', 'polling'],
     });
     socketRef.current = socket;
@@ -86,6 +86,19 @@ export const LobbyPage: React.FC<LobbyPageProps> = ({ team, totalTeamsReady, onL
       socket.disconnect();
     };
   }, [team?.id, teamCode, teamName, teamColor]);
+
+  // Fallback player rendering so avatar is always visible even before socket connection
+  const displayPlayers = players.length > 0 ? players : [
+    {
+      socketId: 'local',
+      teamId: team?.id || 'local_team',
+      teamCode,
+      teamName,
+      color: teamColor,
+      x: myPos.x,
+      y: myPos.y
+    }
+  ];
 
   // Movement handler - completely open room
   const moveMyPlayer = (newX: number, newY: number) => {
@@ -260,8 +273,8 @@ export const LobbyPage: React.FC<LobbyPageProps> = ({ team, totalTeamsReady, onL
             <div className="flex-1 relative bg-[linear-gradient(to_right,#26323e_1px,transparent_1px),linear-gradient(to_bottom,#26323e_1px,transparent_1px)] bg-[size:40px_40px]">
               
               {/* RENDERING MULTIPLAYER CREWMATE PLAYERS */}
-              {players.map((p) => {
-                const isMe = p.teamId === team?.id;
+              {displayPlayers.map((p) => {
+                const isMe = p.teamId === team?.id || p.socketId === 'local';
                 const renderX = isMe ? myPos.x : p.x;
                 const renderY = isMe ? myPos.y : p.y;
 

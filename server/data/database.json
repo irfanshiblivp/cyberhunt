@@ -135,6 +135,21 @@
       "score": 0
     },
     {
+      "id": "tt_team_1789466899246_74_10",
+      "team_id": "team_1789466899246_74",
+      "task_id": 10,
+      "unique_flag": "X9Q-7MK-42P-L8",
+      "dynamic_data": {
+        "targetRoute": "/dead-switch",
+        "flag": "X9Q-7MK-42P-L8",
+        "storyContext": "Open /dead-switch, correlate evidence timestamps, audio playback frequencies, steganography visual filters, and reconstruct the 5-part evidence chain to reveal final flag X9Q-7MK-42P-L8."
+      },
+      "unlocked_at": null,
+      "completed_at": null,
+      "attempt_count": 0,
+      "score": 0
+    },
+    {
       "id": "tt_team_1789466899246_74_2",
       "team_id": "team_1789466899246_74",
       "task_id": 2,
@@ -208,10 +223,10 @@
         "flag": "11:56:18",
         "storyContext": "Analyze security photo image.jpg recovered from the bank security system. Inspect its metadata/properties to find the exact time the photo was taken."
       },
-      "unlocked_at": null,
       "completed_at": null,
       "attempt_count": 0,
-      "score": 0
+      "score": 0,
+      "unlocked_at": "2026-09-15T10:19:32.040Z"
     },
     {
       "id": "tt_team_1789466899246_74_7",
@@ -257,21 +272,6 @@
         "investigationRef": "CASE-4817",
         "flag": "K7pQ-82Lm-X4",
         "storyContext": "Inspect /employees, search EMP-4817, analyze browser Local Storage state transitions (directory_mode = archive), restore record with recovery code R4-91-X, and extract the Task 9 flag."
-      },
-      "unlocked_at": null,
-      "completed_at": null,
-      "attempt_count": 0,
-      "score": 0
-    },
-    {
-      "id": "tt_team_1789466899246_74_10",
-      "team_id": "team_1789466899246_74",
-      "task_id": 10,
-      "unique_flag": "X9Q-7MK-42P-L8",
-      "dynamic_data": {
-        "targetRoute": "/dead-switch",
-        "flag": "X9Q-7MK-42P-L8",
-        "storyContext": "Open /dead-switch, correlate evidence timestamps, audio playback frequencies, steganography visual filters, and reconstruct the 5-part evidence chain to reveal final flag X9Q-7MK-42P-L8."
       },
       "unlocked_at": null,
       "completed_at": null,
