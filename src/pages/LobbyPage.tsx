@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { 
-  Rocket, Users, Volume2, VolumeX, LogOut, Copy, Check, Settings, MessageSquare, Shield, HelpCircle
+  Rocket, Users, Volume2, VolumeX, LogOut, Copy, Check, Settings, Shield, Award, Sparkles
 } from 'lucide-react';
 import { io, Socket } from 'socket.io-client';
 import { CrewmateAvatar } from '../components/CrewmateAvatar';
@@ -22,10 +22,22 @@ interface PlayerPosition {
   y: number;
 }
 
+// Dropship Obstacle Bounding Boxes for Real-Time Collision Engine (% coordinates)
+const OBSTACLES = [
+  // Laptop Table (Center Left)
+  { minX: 28, maxX: 42, minY: 32, maxY: 52 },
+  // Emergency Stand (Center Right)
+  { minX: 58, maxX: 72, minY: 32, maxY: 52 },
+  // Bottom Cargo Crate
+  { minX: 18, maxX: 38, minY: 62, maxY: 78 },
+  // Top Passenger Chairs Row Wall
+  { minX: 10, maxX: 90, minY: 0, maxY: 25 }
+];
+
 export const LobbyPage: React.FC<LobbyPageProps> = ({ team, totalTeamsReady, onLogout }) => {
   const [isMuted, setIsMuted] = useState(sounds.muted);
   const [players, setPlayers] = useState<PlayerPosition[]>([]);
-  const [myPos, setMyPos] = useState({ x: 50, y: 55 });
+  const [myPos, setMyPos] = useState({ x: 50, y: 60 });
   const [copiedCode, setCopiedCode] = useState(false);
 
   // Joystick & touch control state
@@ -55,7 +67,21 @@ export const LobbyPage: React.FC<LobbyPageProps> = ({ team, totalTeamsReady, onL
     setTimeout(() => setCopiedCode(false), 2000);
   };
 
-  // 1. Socket.IO Multiplayer Lobby Sync
+  // Collision Checking Helper Function
+  const isColliding = (x: number, y: number): boolean => {
+    // Outer boundary collision
+    if (x < 14 || x > 86 || y < 26 || y > 82) return true;
+
+    // Obstacle box collision
+    for (const obs of OBSTACLES) {
+      if (x >= obs.minX && x <= obs.maxX && y >= obs.minY && y <= obs.maxY) {
+        return true;
+      }
+    }
+    return false;
+  };
+
+  // 1. Socket.IO Multiplayer Lobby Sync & Reconnection
   useEffect(() => {
     const socket = io(window.location.origin, {
       transports: ['websocket', 'polling'],
@@ -68,13 +94,18 @@ export const LobbyPage: React.FC<LobbyPageProps> = ({ team, totalTeamsReady, onL
         teamCode,
         teamName,
         color: teamColor,
-        x: 50,
-        y: 55
+        x: myPosRef.current.x,
+        y: myPosRef.current.y
       });
     });
 
     socket.on('lobby:players_update', (updatedPlayers: PlayerPosition[]) => {
       setPlayers(updatedPlayers);
+      // Sync local player spawn if assigned by server
+      const me = updatedPlayers.find(p => p.teamId === team?.id);
+      if (me && (myPosRef.current.x === 50 && myPosRef.current.y === 60)) {
+        setMyPos({ x: me.x, y: me.y });
+      }
     });
 
     return () => {
@@ -82,21 +113,34 @@ export const LobbyPage: React.FC<LobbyPageProps> = ({ team, totalTeamsReady, onL
     };
   }, [team?.id, teamCode, teamName, teamColor]);
 
-  // Emit movement updates throttled
+  // Movement handler with collision checking
   const moveMyPlayer = (newX: number, newY: number) => {
-    const clampedX = Math.max(15, Math.min(85, newX));
-    const clampedY = Math.max(25, Math.min(80, newY));
-    setMyPos({ x: clampedX, y: clampedY });
+    let targetX = Math.max(14, Math.min(86, newX));
+    let targetY = Math.max(26, Math.min(82, newY));
+
+    // Try full step first
+    if (!isColliding(targetX, targetY)) {
+      setMyPos({ x: targetX, y: targetY });
+    } else {
+      // Try sliding along X axis only
+      if (!isColliding(targetX, myPosRef.current.y)) {
+        setMyPos({ x: targetX, y: myPosRef.current.y });
+      } 
+      // Try sliding along Y axis only
+      else if (!isColliding(myPosRef.current.x, targetY)) {
+        setMyPos({ x: myPosRef.current.x, y: targetY });
+      }
+    }
 
     if (socketRef.current) {
-      socketRef.current.emit('lobby:move', { x: clampedX, y: clampedY });
+      socketRef.current.emit('lobby:move', { x: myPosRef.current.x, y: myPosRef.current.y });
     }
   };
 
-  // 2. Keyboard Controls (WASD & Arrow Keys)
+  // 2. Keyboard Controls (WASD & Arrow Keys with Collision)
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
-      const step = 2.5;
+      const step = 2.0;
       let { x, y } = myPosRef.current;
       let moved = false;
 
@@ -154,8 +198,8 @@ export const LobbyPage: React.FC<LobbyPageProps> = ({ team, totalTeamsReady, onL
     const jY = Math.sin(angle) * distance;
     setJoystickPos({ x: jX, y: jY });
 
-    const moveStepX = (deltaX / 40) * 2;
-    const moveStepY = (deltaY / 40) * 2;
+    const moveStepX = (deltaX / 40) * 1.8;
+    const moveStepY = (deltaY / 40) * 1.8;
     moveMyPlayer(myPosRef.current.x + moveStepX, myPosRef.current.y + moveStepY);
   };
 
@@ -165,13 +209,13 @@ export const LobbyPage: React.FC<LobbyPageProps> = ({ team, totalTeamsReady, onL
   };
 
   return (
-    <div className="min-h-screen bg-[#07090e] text-slate-100 font-sans p-3 sm:p-6 relative select-none flex flex-col justify-between overflow-hidden">
+    <div className="min-h-screen bg-[#07090e] text-slate-100 font-sans p-3 sm:p-5 relative select-none flex flex-col justify-between overflow-hidden">
       {/* AMONG US TOP CONTROL HEADER BAR */}
       <div className="w-full bg-[#1b2229] border-4 border-[#353e47] rounded-2xl px-4 py-2 flex items-center justify-between shadow-2xl z-30">
         <div className="flex items-center gap-3">
           <div className="w-3.5 h-3.5 rounded-full bg-[#38fedc] border-2 border-white shadow-[0_0_12px_#38fedc] animate-pulse" />
           <span className="text-xs font-bold text-slate-300 font-mono-code uppercase tracking-wider">
-            THE SKELD DROPSHIP LOBBY
+            THE SKELD DROPSHIP LOBBY &bull; SHARED PRE-GAME WAITING ROOM
           </span>
         </div>
 
@@ -199,7 +243,7 @@ export const LobbyPage: React.FC<LobbyPageProps> = ({ team, totalTeamsReady, onL
         <div 
           ref={dropshipRef}
           onClick={handleDropshipClick}
-          className="w-full max-w-6xl aspect-[16/9] min-h-[440px] max-h-[640px] bg-[#141b22] border-4 border-[#353e47] rounded-3xl relative overflow-hidden shadow-[0_0_50px_rgba(0,0,0,0.8)] cursor-crosshair"
+          className="w-full max-w-6xl aspect-[16/9] min-h-[460px] max-h-[660px] bg-[#141b22] border-4 border-[#353e47] rounded-3xl relative overflow-hidden shadow-[0_0_50px_rgba(0,0,0,0.8)] cursor-crosshair"
         >
           {/* Outer Space Background & Stars through Curved Window */}
           <div className="absolute inset-0 bg-[#05070a] z-0 overflow-hidden">
@@ -213,8 +257,8 @@ export const LobbyPage: React.FC<LobbyPageProps> = ({ team, totalTeamsReady, onL
           {/* DROPSHIP METALLIC INTERIOR GRAPHICS */}
           <div className="absolute inset-x-6 top-8 bottom-6 bg-[#1a232c] border-4 border-[#2c3742] rounded-3xl z-10 flex flex-col justify-between shadow-2xl overflow-hidden">
             
-            {/* Top Wall & Passenger Seats (The Skeld Chairs) */}
-            <div className="w-full h-24 bg-[#11171f] border-b-4 border-[#2b3541] relative flex items-center justify-between px-12">
+            {/* Top Wall & Passenger Seats (The Skeld Chairs) & PROMINENT COMPETITION LOGO */}
+            <div className="w-full h-24 bg-[#11171f] border-b-4 border-[#2b3541] relative flex items-center justify-between px-8">
               {/* Left Passenger Seat Row */}
               <div className="flex gap-2">
                 {[1, 2, 3, 4].map(i => (
@@ -224,12 +268,20 @@ export const LobbyPage: React.FC<LobbyPageProps> = ({ team, totalTeamsReady, onL
                 ))}
               </div>
 
-              {/* Center Arch / Window Frame */}
-              <div className="w-48 h-full bg-[#1c2633] border-x-4 border-[#334252] flex flex-col items-center justify-center space-y-1">
-                <div className="w-32 h-6 bg-[#090d14] border-2 border-cyan-500/40 rounded-t-full flex items-center justify-center">
-                  <span className="text-[9px] font-mono-code text-cyan-400 font-bold tracking-widest">OUTER SPACE</span>
+              {/* Center PROMINENT CYBER HUNT '26 LOGO & WINDOW FRAME */}
+              <div className="w-64 h-full bg-[#1c2633] border-x-4 border-[#334252] flex flex-col items-center justify-center space-y-1 shadow-inner px-2 text-center">
+                <div className="flex items-center gap-2">
+                  <Sparkles className="w-4 h-4 text-[#38fedc] animate-pulse" />
+                  <span className="text-xl sm:text-2xl font-black font-among-us tracking-widest text-transparent bg-clip-text bg-gradient-to-r from-[#38fedc] via-white to-cyan-400 drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]">
+                    CYBER HUNT '26
+                  </span>
+                  <Sparkles className="w-4 h-4 text-[#38fedc] animate-pulse" />
                 </div>
-                <div className="w-24 h-2 bg-[#2d3a48] rounded"></div>
+                <div className="w-36 h-4 bg-[#090d14] border border-cyan-500/40 rounded-full flex items-center justify-center">
+                  <span className="text-[8px] font-mono-code text-cyan-400 font-bold tracking-widest uppercase">
+                    PRE-GAME LOBBY
+                  </span>
+                </div>
               </div>
 
               {/* Right Passenger Seat Row */}
@@ -242,10 +294,10 @@ export const LobbyPage: React.FC<LobbyPageProps> = ({ team, totalTeamsReady, onL
               </div>
             </div>
 
-            {/* DROPSHIP FLOOR GRID PATTERN */}
+            {/* DROPSHIP FLOOR GRID PATTERN WITH COLLISION OBJECTS */}
             <div className="flex-1 relative bg-[linear-gradient(to_right,#26323e_1px,transparent_1px),linear-gradient(to_bottom,#26323e_1px,transparent_1px)] bg-[size:40px_40px]">
               
-              {/* CENTER OBSTACLES: LAPTOP TABLE & EMERGENCY BUTTON CRATE */}
+              {/* CENTER OBSTACLES WITH SOLID COLLISION BOUNDS */}
               {/* Laptop Table (Center Left) */}
               <div className="absolute top-[35%] left-[32%] w-16 h-14 bg-[#233529] border-3 border-[#344d3d] rounded-xl shadow-2xl flex flex-col items-center justify-center z-10 pointer-events-none">
                 <div className="w-8 h-6 bg-[#122017] border border-[#406850] rounded flex items-center justify-center">
@@ -280,12 +332,12 @@ export const LobbyPage: React.FC<LobbyPageProps> = ({ team, totalTeamsReady, onL
                     style={{ left: `${renderX}%`, top: `${renderY}%` }}
                   >
                     <div className="flex flex-col items-center">
-                      {/* Name tag above crewmate */}
-                      <div className="px-2 py-0.5 rounded-full bg-black/80 border border-slate-700 text-white font-chakra text-[11px] font-bold shadow-lg whitespace-nowrap mb-1">
+                      {/* Unique Team Name Label displayed above character */}
+                      <div className="px-2.5 py-0.5 rounded-full bg-black/85 border border-slate-700 text-white font-chakra text-[11px] font-bold shadow-lg whitespace-nowrap mb-1">
                         {p.teamName} {isMe && <span className="text-[#38fedc] font-black">(YOU)</span>}
                       </div>
 
-                      {/* Among Us Avatar */}
+                      {/* Among Us Crewmate Avatar */}
                       <CrewmateAvatar
                         color={p.color || 'cyan'}
                         size={56}
@@ -344,10 +396,10 @@ export const LobbyPage: React.FC<LobbyPageProps> = ({ team, totalTeamsReady, onL
               </div>
 
               <div className="flex justify-between items-center bg-[#0e151f] p-2 rounded-xl border border-slate-800 font-mono-code">
-                <span className="text-slate-300 text-xs">CAPACITY</span>
+                <span className="text-slate-300 text-xs">TEAMS WAITING</span>
                 <div className="flex items-center gap-1.5 text-amber-400 font-bold text-sm">
                   <div className="w-3.5 h-3.5 rounded-full bg-red-600 border border-white"></div>
-                  <span>{players.length} / 15</span>
+                  <span>{players.length || totalTeamsReady} / 15</span>
                 </div>
               </div>
 
@@ -358,13 +410,13 @@ export const LobbyPage: React.FC<LobbyPageProps> = ({ team, totalTeamsReady, onL
             </div>
           </div>
 
-          {/* CENTER BOTTOM: "WAITING FOR HOST" OVERLAY BANNER */}
+          {/* CENTER BOTTOM: "WAITING FOR GAME TO START" OVERLAY BANNER */}
           <div className="absolute bottom-10 left-1/2 -translate-x-1/2 z-20 bg-black/80 backdrop-blur-md border-3 border-slate-700 px-8 py-2.5 rounded-2xl text-center space-y-0.5 shadow-2xl">
             <h2 className="text-2xl font-black text-slate-300 font-among-us tracking-widest uppercase">
-              WAITING FOR HOST
+              WAITING FOR GAME TO START
             </h2>
             <p className="text-[10px] text-[#38fedc] font-mono-code font-bold uppercase tracking-wider">
-              ADMIN WILL BROADCAST COUNTDOWN TO START COMPETITION
+              HOST (ADMIN) WILL START COMPETITION FOR ALL PARTICIPANTS
             </p>
           </div>
 
@@ -383,7 +435,7 @@ export const LobbyPage: React.FC<LobbyPageProps> = ({ team, totalTeamsReady, onL
 
           {/* DESKTOP KEYBOARD CONTROLS HINT (BOTTOM RIGHT) */}
           <div className="hidden sm:block absolute bottom-10 right-10 z-20 bg-black/70 backdrop-blur-md border border-slate-700 px-3.5 py-2 rounded-xl text-[10px] font-mono-code text-slate-400 shadow-xl">
-            ⌨️ Move: <strong className="text-white font-bold">WASD / Arrow Keys</strong> or <strong className="text-[#38fedc]">Click Dropship Floor</strong>
+            ⌨️ Move: <strong className="text-white font-bold">WASD / Arrow Keys</strong> or <strong className="text-[#38fedc]">Click Floor</strong>
           </div>
         </div>
       </div>
