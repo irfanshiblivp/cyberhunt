@@ -1,5 +1,8 @@
-import React from 'react';
-import { Rocket, Users, Volume2, VolumeX, LogOut } from 'lucide-react';
+import React, { useState, useEffect, useRef } from 'react';
+import { 
+  Rocket, Users, Volume2, VolumeX, LogOut, Copy, Check, Settings, MessageSquare, Shield, HelpCircle
+} from 'lucide-react';
+import { io, Socket } from 'socket.io-client';
 import { CrewmateAvatar } from '../components/CrewmateAvatar';
 import { sounds } from '../components/SoundEngine';
 
@@ -9,8 +12,35 @@ interface LobbyPageProps {
   onLogout: () => void;
 }
 
+interface PlayerPosition {
+  socketId: string;
+  teamId: string;
+  teamCode: string;
+  teamName: string;
+  color: string;
+  x: number;
+  y: number;
+}
+
 export const LobbyPage: React.FC<LobbyPageProps> = ({ team, totalTeamsReady, onLogout }) => {
-  const [isMuted, setIsMuted] = React.useState(sounds.muted);
+  const [isMuted, setIsMuted] = useState(sounds.muted);
+  const [players, setPlayers] = useState<PlayerPosition[]>([]);
+  const [myPos, setMyPos] = useState({ x: 50, y: 55 });
+  const [copiedCode, setCopiedCode] = useState(false);
+
+  // Joystick & touch control state
+  const [joystickActive, setJoystickActive] = useState(false);
+  const [joystickPos, setJoystickPos] = useState({ x: 0, y: 0 });
+
+  const dropshipRef = useRef<HTMLDivElement>(null);
+  const socketRef = useRef<Socket | null>(null);
+  const myPosRef = useRef(myPos);
+
+  myPosRef.current = myPos;
+
+  const teamColor = team?.color || 'cyan';
+  const teamCode = team?.team_code || 'DEMO';
+  const teamName = team?.team_name || 'Cyber Squad';
 
   const toggleSound = () => {
     sounds.muted = !sounds.muted;
@@ -18,131 +48,342 @@ export const LobbyPage: React.FC<LobbyPageProps> = ({ team, totalTeamsReady, onL
     sounds.playClick();
   };
 
-  const members = [team.member1, team.member2, team.member3].filter(Boolean);
-  const teamColor = team.color || 'cyan';
+  const handleCopyCode = () => {
+    navigator.clipboard.writeText(teamCode);
+    setCopiedCode(true);
+    sounds.playClick();
+    setTimeout(() => setCopiedCode(false), 2000);
+  };
+
+  // 1. Socket.IO Multiplayer Lobby Sync
+  useEffect(() => {
+    const socket = io(window.location.origin, {
+      transports: ['websocket', 'polling'],
+    });
+    socketRef.current = socket;
+
+    socket.on('connect', () => {
+      socket.emit('lobby:join', {
+        teamId: team?.id || `team_${Date.now()}`,
+        teamCode,
+        teamName,
+        color: teamColor,
+        x: 50,
+        y: 55
+      });
+    });
+
+    socket.on('lobby:players_update', (updatedPlayers: PlayerPosition[]) => {
+      setPlayers(updatedPlayers);
+    });
+
+    return () => {
+      socket.disconnect();
+    };
+  }, [team?.id, teamCode, teamName, teamColor]);
+
+  // Emit movement updates throttled
+  const moveMyPlayer = (newX: number, newY: number) => {
+    const clampedX = Math.max(15, Math.min(85, newX));
+    const clampedY = Math.max(25, Math.min(80, newY));
+    setMyPos({ x: clampedX, y: clampedY });
+
+    if (socketRef.current) {
+      socketRef.current.emit('lobby:move', { x: clampedX, y: clampedY });
+    }
+  };
+
+  // 2. Keyboard Controls (WASD & Arrow Keys)
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      const step = 2.5;
+      let { x, y } = myPosRef.current;
+      let moved = false;
+
+      if (e.key === 'ArrowUp' || e.key === 'w' || e.key === 'W') {
+        y -= step;
+        moved = true;
+      } else if (e.key === 'ArrowDown' || e.key === 's' || e.key === 'S') {
+        y += step;
+        moved = true;
+      } else if (e.key === 'ArrowLeft' || e.key === 'a' || e.key === 'A') {
+        x -= step;
+        moved = true;
+      } else if (e.key === 'ArrowRight' || e.key === 'd' || e.key === 'D') {
+        x += step;
+        moved = true;
+      }
+
+      if (moved) {
+        moveMyPlayer(x, y);
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, []);
+
+  // 3. Floor Click / Tap to Walk
+  const handleDropshipClick = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (!dropshipRef.current) return;
+    const rect = dropshipRef.current.getBoundingClientRect();
+    const clickX = ((e.clientX - rect.left) / rect.width) * 100;
+    const clickY = ((e.clientY - rect.top) / rect.height) * 100;
+
+    moveMyPlayer(clickX, clickY);
+  };
+
+  // 4. Virtual Touch Joystick Logic
+  const handleTouchStart = (e: React.TouchEvent) => {
+    setJoystickActive(true);
+  };
+
+  const handleTouchMove = (e: React.TouchEvent) => {
+    if (!joystickActive) return;
+    const touch = e.touches[0];
+    const target = e.currentTarget.getBoundingClientRect();
+    const centerX = target.left + target.width / 2;
+    const centerY = target.top + target.height / 2;
+
+    const deltaX = touch.clientX - centerX;
+    const deltaY = touch.clientY - centerY;
+    const distance = Math.min(40, Math.hypot(deltaX, deltaY));
+    const angle = Math.atan2(deltaY, deltaX);
+
+    const jX = Math.cos(angle) * distance;
+    const jY = Math.sin(angle) * distance;
+    setJoystickPos({ x: jX, y: jY });
+
+    const moveStepX = (deltaX / 40) * 2;
+    const moveStepY = (deltaY / 40) * 2;
+    moveMyPlayer(myPosRef.current.x + moveStepX, myPosRef.current.y + moveStepY);
+  };
+
+  const handleTouchEnd = () => {
+    setJoystickActive(false);
+    setJoystickPos({ x: 0, y: 0 });
+  };
 
   return (
-    <div className="min-h-screen relative z-10 flex flex-col p-4 sm:p-6 max-w-6xl mx-auto">
-      {/* Top Navbar */}
-      <div className="flex items-center justify-between glass-panel rounded-2xl px-6 py-4 mb-6 border border-cyber-cyan/30">
+    <div className="min-h-screen bg-[#07090e] text-slate-100 font-sans p-3 sm:p-6 relative select-none flex flex-col justify-between overflow-hidden">
+      {/* AMONG US TOP CONTROL HEADER BAR */}
+      <div className="w-full bg-[#1b2229] border-4 border-[#353e47] rounded-2xl px-4 py-2 flex items-center justify-between shadow-2xl z-30">
         <div className="flex items-center gap-3">
-          <CrewmateAvatar color={teamColor} size={42} animated={false} />
-          <div>
-            <h1 className="text-lg font-extrabold text-white font-chakra tracking-tight">
-              CYBER HUNT '26
-            </h1>
-            <p className="text-[11px] text-cyber-cyan font-bold font-mono-code uppercase">
-              MISSION CONTROL LOBBY
-            </p>
-          </div>
+          <div className="w-3.5 h-3.5 rounded-full bg-[#38fedc] border-2 border-white shadow-[0_0_12px_#38fedc] animate-pulse" />
+          <span className="text-xs font-bold text-slate-300 font-mono-code uppercase tracking-wider">
+            THE SKELD DROPSHIP LOBBY
+          </span>
         </div>
 
-        <div className="flex items-center gap-3">
+        {/* Top Right Among Us Icon Buttons */}
+        <div className="flex items-center gap-2">
           <button
             onClick={toggleSound}
-            className="p-2.5 rounded-xl bg-space-800 border border-slate-700 hover:border-cyber-cyan text-slate-300 hover:text-cyber-cyan transition-colors"
-            title="Toggle Sound"
+            className="p-2 rounded-xl bg-[#28323c] border-2 border-slate-600 hover:border-[#38fedc] text-slate-300 transition-all"
+            title="Toggle Audio"
           >
-            {isMuted ? <VolumeX className="w-4 h-4 text-rose-400" /> : <Volume2 className="w-4 h-4 text-cyber-cyan" />}
+            {isMuted ? <VolumeX className="w-4 h-4 text-rose-400" /> : <Volume2 className="w-4 h-4 text-[#38fedc]" />}
           </button>
+
           <button
             onClick={() => { sounds.playClick(); onLogout(); }}
-            className="px-3.5 py-2 rounded-xl bg-space-800 border border-slate-700 hover:border-rose-500 text-slate-300 hover:text-rose-400 font-chakra text-xs font-bold transition-colors flex items-center gap-1.5"
+            className="px-3.5 py-1.5 rounded-xl bg-rose-950 border-2 border-rose-500 hover:bg-rose-900 text-rose-200 font-among-us text-lg font-bold transition-all flex items-center gap-1.5 shadow-lg"
           >
-            <LogOut className="w-4 h-4" /> Leave Session
+            <LogOut className="w-4 h-4" /> LEAVE
           </button>
         </div>
       </div>
 
-      {/* Main Waiting Deck */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 flex-1">
-        {/* Left Column: Team Profile Card */}
-        <div className="glass-panel rounded-2xl p-6 border border-cyber-cyan/20 flex flex-col justify-between">
-          <div className="space-y-4">
-            <div className="flex items-center justify-between">
-              <span className="text-xs font-bold text-cyber-cyan uppercase font-chakra tracking-wider">
-                YOUR TEAM SESSION
-              </span>
-              <span className="px-2.5 py-0.5 rounded-full bg-cyber-cyan/10 border border-cyber-cyan/40 text-cyber-cyan font-mono-code text-[11px] font-bold">
-                {team.team_code}
-              </span>
-            </div>
+      {/* MAIN LOBBY VIEWPORT: DROPSHIP ROOM + AMONG US OVERLAYS */}
+      <div className="relative flex-1 my-3 flex items-center justify-center">
+        <div 
+          ref={dropshipRef}
+          onClick={handleDropshipClick}
+          className="w-full max-w-6xl aspect-[16/9] min-h-[440px] max-h-[640px] bg-[#141b22] border-4 border-[#353e47] rounded-3xl relative overflow-hidden shadow-[0_0_50px_rgba(0,0,0,0.8)] cursor-crosshair"
+        >
+          {/* Outer Space Background & Stars through Curved Window */}
+          <div className="absolute inset-0 bg-[#05070a] z-0 overflow-hidden">
+            <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-blue-900/20 via-black to-black"></div>
+            {/* Stars */}
+            <div className="absolute top-4 left-10 w-1 h-1 bg-white rounded-full animate-ping opacity-75"></div>
+            <div className="absolute top-12 left-1/3 w-1.5 h-1.5 bg-cyan-200 rounded-full animate-pulse"></div>
+            <div className="absolute top-8 right-1/4 w-1 h-1 bg-white rounded-full opacity-50"></div>
+          </div>
 
-            <h2 className="text-2xl font-black text-white font-chakra tracking-tight">
-              {team.team_name}
-            </h2>
-
-            <div className="p-4 bg-space-900/80 rounded-xl border border-slate-800 space-y-2">
-              <span className="text-[10px] text-slate-400 font-bold uppercase font-chakra block">
-                CREWMATE MEMBERS ({members.length}/3)
-              </span>
-              <ul className="space-y-1.5 font-chakra text-sm text-slate-200 font-semibold">
-                {members.map((m, idx) => (
-                  <li key={idx} className="flex items-center gap-2">
-                    <span className="w-2.5 h-2.5 rounded-full bg-cyber-neon"></span>
-                    <span>{m} {idx === 0 && '(Leader)'}</span>
-                  </li>
+          {/* DROPSHIP METALLIC INTERIOR GRAPHICS */}
+          <div className="absolute inset-x-6 top-8 bottom-6 bg-[#1a232c] border-4 border-[#2c3742] rounded-3xl z-10 flex flex-col justify-between shadow-2xl overflow-hidden">
+            
+            {/* Top Wall & Passenger Seats (The Skeld Chairs) */}
+            <div className="w-full h-24 bg-[#11171f] border-b-4 border-[#2b3541] relative flex items-center justify-between px-12">
+              {/* Left Passenger Seat Row */}
+              <div className="flex gap-2">
+                {[1, 2, 3, 4].map(i => (
+                  <div key={i} className="w-8 h-12 bg-[#253240] border-2 border-[#3b4b5c] rounded-t-xl shadow-inner relative">
+                    <div className="w-6 h-3 bg-[#17212b] rounded-t mx-auto mt-1 border-b border-slate-700"></div>
+                  </div>
                 ))}
-              </ul>
-            </div>
-          </div>
-
-          <div className="mt-6 pt-4 border-t border-slate-800 space-y-3 font-chakra">
-            <div className="flex justify-between items-center text-xs">
-              <span className="text-slate-400">SESSION STATUS</span>
-              <span className="text-amber-400 font-bold tracking-widest uppercase">WAITING FOR GAME</span>
-            </div>
-            <div className="flex justify-between items-center text-xs">
-              <span className="text-slate-400">MISSION STATUS</span>
-              <span className="text-slate-400 font-bold tracking-widest uppercase">NOT STARTED</span>
-            </div>
-          </div>
-        </div>
-
-        {/* Center Column: Crewmates Deck & Live Count */}
-        <div className="lg:col-span-2 glass-panel-glow rounded-2xl p-6 border border-cyber-cyan/30 flex flex-col items-center justify-between text-center relative overflow-hidden">
-          <div className="py-2 px-4 rounded-full bg-space-900 border border-cyber-neon/40 text-cyber-neon text-xs font-bold font-chakra tracking-widest uppercase shadow-lg">
-            WAITING FOR ADMIN START
-          </div>
-
-          {/* Crewmates Room */}
-          <div className="my-8 flex flex-wrap items-center justify-center gap-8 sm:gap-12 py-6 px-4 bg-space-900/60 rounded-2xl border border-slate-800/80 w-full">
-            {members.map((m, idx) => (
-              <CrewmateAvatar
-                key={idx}
-                color={teamColor}
-                size={95}
-                label={m}
-                isReady={true}
-                animated={false}
-              />
-            ))}
-          </div>
-
-          {/* Global Ready Counter & Briefing */}
-          <div className="w-full space-y-4">
-            <div className="p-4 rounded-xl bg-space-900/90 border border-cyber-cyan/30 inline-flex items-center gap-4">
-              <div className="w-12 h-12 rounded-xl bg-cyber-cyan/10 border border-cyber-cyan/50 flex items-center justify-center">
-                <Users className="w-6 h-6 text-cyber-cyan" />
               </div>
-              <div className="text-left font-chakra">
-                <span className="text-xs text-slate-400 font-bold block uppercase">
-                  TEAMS REGISTERED
-                </span>
-                <span className="text-2xl font-black text-cyber-cyan font-mono-code">
-                  TEAMS READY: {totalTeamsReady}
-                </span>
+
+              {/* Center Arch / Window Frame */}
+              <div className="w-48 h-full bg-[#1c2633] border-x-4 border-[#334252] flex flex-col items-center justify-center space-y-1">
+                <div className="w-32 h-6 bg-[#090d14] border-2 border-cyan-500/40 rounded-t-full flex items-center justify-center">
+                  <span className="text-[9px] font-mono-code text-cyan-400 font-bold tracking-widest">OUTER SPACE</span>
+                </div>
+                <div className="w-24 h-2 bg-[#2d3a48] rounded"></div>
+              </div>
+
+              {/* Right Passenger Seat Row */}
+              <div className="flex gap-2">
+                {[1, 2, 3, 4].map(i => (
+                  <div key={i} className="w-8 h-12 bg-[#253240] border-2 border-[#3b4b5c] rounded-t-xl shadow-inner relative">
+                    <div className="w-6 h-3 bg-[#17212b] rounded-t mx-auto mt-1 border-b border-slate-700"></div>
+                  </div>
+                ))}
               </div>
             </div>
 
-            <div className="p-4 rounded-xl bg-space-900/60 border border-slate-800 text-slate-400 text-xs max-w-xl mx-auto space-y-1">
-              <p className="font-semibold text-slate-300">
-                All crewmates remain in Mission Control until Admin starts the competition.
-              </p>
-              <p>
-                Once started, Task 1 will unlock automatically.
-              </p>
+            {/* DROPSHIP FLOOR GRID PATTERN */}
+            <div className="flex-1 relative bg-[linear-gradient(to_right,#26323e_1px,transparent_1px),linear-gradient(to_bottom,#26323e_1px,transparent_1px)] bg-[size:40px_40px]">
+              
+              {/* CENTER OBSTACLES: LAPTOP TABLE & EMERGENCY BUTTON CRATE */}
+              {/* Laptop Table (Center Left) */}
+              <div className="absolute top-[35%] left-[32%] w-16 h-14 bg-[#233529] border-3 border-[#344d3d] rounded-xl shadow-2xl flex flex-col items-center justify-center z-10 pointer-events-none">
+                <div className="w-8 h-6 bg-[#122017] border border-[#406850] rounded flex items-center justify-center">
+                  <div className="w-6 h-4 bg-emerald-400/80 rounded animate-pulse flex items-center justify-center text-[7px] font-bold text-black">
+                    CONFIG
+                  </div>
+                </div>
+              </div>
+
+              {/* Emergency Button Box (Center Right) */}
+              <div className="absolute top-[35%] right-[32%] w-14 h-14 bg-[#2e3742] border-3 border-[#445263] rounded-xl shadow-2xl flex items-center justify-center z-10 pointer-events-none">
+                <div className="w-8 h-8 rounded-full bg-rose-600 border-2 border-white shadow-[0_0_12px_#e11d48] flex items-center justify-center">
+                  <div className="w-3 h-3 rounded-full bg-white animate-ping"></div>
+                </div>
+              </div>
+
+              {/* Bottom Large Cargo Crate */}
+              <div className="absolute bottom-[10%] left-[22%] w-24 h-14 bg-[#1f313a] border-3 border-[#324b58] rounded-xl shadow-2xl z-10 pointer-events-none flex items-center justify-center">
+                <span className="text-[10px] font-mono-code font-bold text-cyan-400/70 tracking-widest">CYBER CARGO</span>
+              </div>
+
+              {/* RENDERING MULTIPLAYER CREWMATE PLAYERS */}
+              {players.map((p) => {
+                const isMe = p.teamId === team?.id;
+                const renderX = isMe ? myPos.x : p.x;
+                const renderY = isMe ? myPos.y : p.y;
+
+                return (
+                  <div
+                    key={p.socketId || p.teamId}
+                    className="absolute z-20 transition-all duration-150 transform -translate-x-1/2 -translate-y-1/2 pointer-events-none"
+                    style={{ left: `${renderX}%`, top: `${renderY}%` }}
+                  >
+                    <div className="flex flex-col items-center">
+                      {/* Name tag above crewmate */}
+                      <div className="px-2 py-0.5 rounded-full bg-black/80 border border-slate-700 text-white font-chakra text-[11px] font-bold shadow-lg whitespace-nowrap mb-1">
+                        {p.teamName} {isMe && <span className="text-[#38fedc] font-black">(YOU)</span>}
+                      </div>
+
+                      {/* Among Us Avatar */}
+                      <CrewmateAvatar
+                        color={p.color || 'cyan'}
+                        size={56}
+                        animated={isMe}
+                      />
+                    </div>
+                  </div>
+                );
+              })}
             </div>
+          </div>
+
+          {/* AMONG US LEFT RULES OVERLAY PANEL */}
+          <div className="absolute top-12 left-10 z-20 bg-black/60 backdrop-blur-md border-2 border-slate-700 rounded-2xl p-3.5 text-slate-200 font-mono-code text-[11px] space-y-1.5 shadow-xl max-w-[220px]">
+            <div className="flex items-center gap-1.5 text-[#38fedc] font-bold font-among-us text-sm">
+              <Settings className="w-4 h-4" /> GAME SETTINGS
+            </div>
+            <div className="space-y-1 text-[10px] text-slate-300">
+              <div>⚙️ # Impostors set to 0 (Co-Op)</div>
+              <div>⚙️ Player Speed set to 1.5x</div>
+              <div>⚙️ Tasks set to 10 Chapters</div>
+              <div>⚙️ Sequential Unlock set to On</div>
+            </div>
+          </div>
+
+          {/* AMONG US RIGHT ROOM CODE & CAPACITY TABLET (MATCHING UPLOADED SCREENSHOT) */}
+          <div className="absolute top-12 right-10 z-20 bg-[#161e27]/90 backdrop-blur-md border-3 border-[#323f4d] rounded-2xl p-4 text-white font-among-us shadow-2xl space-y-3 min-w-[210px]">
+            {/* ROOM CODE BOX */}
+            <div className="space-y-1">
+              <span className="text-[10px] text-slate-400 font-mono-code font-bold block uppercase tracking-wider">
+                ROOM CODE
+              </span>
+              <div className="flex items-center justify-between bg-[#0a0f16] border-2 border-[#2b3947] rounded-xl px-3 py-1.5">
+                <span className="text-xl font-bold text-[#38fedc] tracking-widest font-mono-code select-all">
+                  {teamCode}
+                </span>
+                <button
+                  onClick={handleCopyCode}
+                  className="p-1.5 bg-[#202b36] hover:bg-[#2e3e4f] text-slate-300 hover:text-white rounded-lg transition-colors"
+                  title="Copy Room Code"
+                >
+                  {copiedCode ? <Check className="w-4 h-4 text-emerald-400" /> : <Copy className="w-4 h-4" />}
+                </button>
+              </div>
+            </div>
+
+            {/* ROOM SETTINGS */}
+            <div className="space-y-2 pt-1 border-t border-[#2b3947] text-xs">
+              <span className="text-[10px] text-slate-400 font-mono-code font-bold uppercase block">
+                ROOM SETTINGS
+              </span>
+
+              <div className="flex justify-between items-center bg-[#0e151f] p-2 rounded-xl border border-slate-800">
+                <span className="text-slate-300 text-sm">MAP</span>
+                <span className="text-[#38fedc] font-bold text-sm tracking-wider">THE SKELD</span>
+              </div>
+
+              <div className="flex justify-between items-center bg-[#0e151f] p-2 rounded-xl border border-slate-800 font-mono-code">
+                <span className="text-slate-300 text-xs">CAPACITY</span>
+                <div className="flex items-center gap-1.5 text-amber-400 font-bold text-sm">
+                  <div className="w-3.5 h-3.5 rounded-full bg-red-600 border border-white"></div>
+                  <span>{players.length} / 15</span>
+                </div>
+              </div>
+
+              <div className="flex justify-between items-center text-[11px] font-mono-code">
+                <span className="text-slate-400">PRIVACY</span>
+                <span className="text-emerald-400 font-bold uppercase">PUBLIC</span>
+              </div>
+            </div>
+          </div>
+
+          {/* CENTER BOTTOM: "WAITING FOR HOST" OVERLAY BANNER */}
+          <div className="absolute bottom-10 left-1/2 -translate-x-1/2 z-20 bg-black/80 backdrop-blur-md border-3 border-slate-700 px-8 py-2.5 rounded-2xl text-center space-y-0.5 shadow-2xl">
+            <h2 className="text-2xl font-black text-slate-300 font-among-us tracking-widest uppercase">
+              WAITING FOR HOST
+            </h2>
+            <p className="text-[10px] text-[#38fedc] font-mono-code font-bold uppercase tracking-wider">
+              ADMIN WILL BROADCAST COUNTDOWN TO START COMPETITION
+            </p>
+          </div>
+
+          {/* VIRTUAL TOUCH JOYSTICK FOR MOBILE / TOUCH USERS (BOTTOM LEFT) */}
+          <div
+            onTouchStart={handleTouchStart}
+            onTouchMove={handleTouchMove}
+            onTouchEnd={handleTouchEnd}
+            className="absolute bottom-8 left-8 z-30 w-24 h-24 rounded-full bg-black/50 border-2 border-slate-600/80 flex items-center justify-center touch-none sm:hidden"
+          >
+            <div
+              className="w-10 h-10 rounded-full bg-[#38fedc]/80 border-2 border-white shadow-lg transition-transform duration-75"
+              style={{ transform: `translate(${joystickPos.x}px, ${joystickPos.y}px)` }}
+            />
+          </div>
+
+          {/* DESKTOP KEYBOARD CONTROLS HINT (BOTTOM RIGHT) */}
+          <div className="hidden sm:block absolute bottom-10 right-10 z-20 bg-black/70 backdrop-blur-md border border-slate-700 px-3.5 py-2 rounded-xl text-[10px] font-mono-code text-slate-400 shadow-xl">
+            ⌨️ Move: <strong className="text-white font-bold">WASD / Arrow Keys</strong> or <strong className="text-[#38fedc]">Click Dropship Floor</strong>
           </div>
         </div>
       </div>
