@@ -129,6 +129,20 @@
       "status": "WAITING",
       "active_session_token": "sess_1789470006487_128802",
       "score": 0
+    },
+    {
+      "id": "team_1789471380708_791",
+      "team_code": "TEAM-HLSH",
+      "access_code": "6PS-ICL-5F5",
+      "team_name": "defghjk",
+      "member1": "tyuio",
+      "member2": "fghjk",
+      "member3": "dfghjk",
+      "color": "lime",
+      "created_at": "2026-09-15T11:23:00.710Z",
+      "status": "WAITING",
+      "active_session_token": "sess_1789471380710_915635",
+      "score": 0
     }
   ],
   "team_tasks": [
@@ -449,6 +463,166 @@
     {
       "id": "tt_team_1789470006487_506_10",
       "team_id": "team_1789470006487_506",
+      "task_id": 10,
+      "unique_flag": "X9Q-7MK-42P-L8",
+      "dynamic_data": {
+        "targetRoute": "/dead-switch",
+        "flag": "X9Q-7MK-42P-L8",
+        "storyContext": "Open /dead-switch, correlate evidence timestamps, audio playback frequencies, steganography visual filters, and reconstruct the 5-part evidence chain to reveal final flag X9Q-7MK-42P-L8."
+      },
+      "unlocked_at": null,
+      "completed_at": null,
+      "attempt_count": 0,
+      "score": 0
+    },
+    {
+      "id": "tt_team_1789471380708_791_1",
+      "team_id": "team_1789471380708_791",
+      "task_id": 1,
+      "unique_flag": "SzdtUS00dk5wLVgy",
+      "dynamic_data": {
+        "keyword": "SzdtUS00dk5wLVgy",
+        "flag": "SzdtUS00dk5wLVgy",
+        "piecesCount": 12,
+        "storyContext": "Twelve pieces of a torn photo/document were recovered from the bank crime scene. Put the evidence back together to reveal the word."
+      },
+      "unlocked_at": "2026-09-15T11:23:00.721Z",
+      "completed_at": null,
+      "attempt_count": 0,
+      "score": 0
+    },
+    {
+      "id": "tt_team_1789471380708_791_2",
+      "team_id": "team_1789471380708_791",
+      "task_id": 2,
+      "unique_flag": "3D10-5373-BE29",
+      "dynamic_data": {
+        "encodedTrace": "SzdtUS00dk5wLVgy",
+        "flag": "3D10-5373-BE29",
+        "storyContext": "The word from the torn document led to an encoded message. Identify the encoding and decode it to reveal the Task 2 flag."
+      },
+      "unlocked_at": null,
+      "completed_at": null,
+      "attempt_count": 0,
+      "score": 0
+    },
+    {
+      "id": "tt_team_1789471380708_791_3",
+      "team_id": "team_1789471380708_791",
+      "task_id": 3,
+      "unique_flag": "7519-0074-A2A3",
+      "dynamic_data": {
+        "targetPage": "/K7mQ-4vNp-X2",
+        "domAttribute": "data-bank-archive=\"/robots.txt\"",
+        "htmlComment": "<!-- BANK EVIDENCE CONTINUES AT: /robots.txt | CLUE KEY: 7519-0074-A2A3 -->",
+        "displayText": "something hidden here",
+        "storyContext": "Open page /K7mQ-4vNp-X2. It displays \"something hidden here\". Inspect the HTML source code of the page to reveal the hidden clue."
+      },
+      "unlocked_at": null,
+      "completed_at": null,
+      "attempt_count": 0,
+      "score": 0
+    },
+    {
+      "id": "tt_team_1789471380708_791_4",
+      "team_id": "team_1789471380708_791",
+      "task_id": 4,
+      "unique_flag": "EBBF-BE90-622A",
+      "dynamic_data": {
+        "hiddenPath": "/evidence-archive-f99594",
+        "robotTxtContent": "User-agent: *\nDisallow: /admin/\nDisallow: /config/\nDisallow: /evidence-archive-f99594\n# BANK ROBBERY AUXILIARY ARCHIVE ROUTE",
+        "secretKey": "EBBF-BE90-622A",
+        "storyContext": "Inspect /robots.txt on the bank web server to discover the disallow directory hiding the auxiliary vault evidence."
+      },
+      "unlocked_at": null,
+      "completed_at": null,
+      "attempt_count": 0,
+      "score": 0
+    },
+    {
+      "id": "tt_team_1789471380708_791_5",
+      "team_id": "team_1789471380708_791",
+      "task_id": 5,
+      "unique_flag": "A7C6-30C5-4ED2",
+      "dynamic_data": {
+        "doubleBase64": "VkZKQlRsTkJRMVJKVDA1ZlJreEJSenBCTjBNMkxUTXdRelV0TkVWRU1nPT0=",
+        "flag": "A7C6-30C5-4ED2",
+        "storyContext": "Inside the auxiliary vault is an intercepted transaction payload. Multiple layers of encoding were applied to conceal the sensitive key stream. Analyze and reverse the transformation to extract the Task 5 flag."
+      },
+      "unlocked_at": null,
+      "completed_at": null,
+      "attempt_count": 0,
+      "score": 0
+    },
+    {
+      "id": "tt_team_1789471380708_791_6",
+      "team_id": "team_1789471380708_791",
+      "task_id": 6,
+      "unique_flag": "11:56:18",
+      "dynamic_data": {
+        "imageName": "image.jpg",
+        "imagePath": "/image.jpg",
+        "flag": "11:56:18",
+        "storyContext": "Analyze security photo image.jpg recovered from the bank security system. Inspect its metadata/properties to find the exact time the photo was taken."
+      },
+      "unlocked_at": null,
+      "completed_at": null,
+      "attempt_count": 0,
+      "score": 0
+    },
+    {
+      "id": "tt_team_1789471380708_791_7",
+      "team_id": "team_1789471380708_791",
+      "task_id": 7,
+      "unique_flag": "40A7-3D08-FDD9",
+      "dynamic_data": {
+        "targetRoute": "/login",
+        "flag": "40A7-3D08-FDD9",
+        "storyContext": "The robbers managed to access the bank internal system. Access /login and inspect the HTTP request/response flow using DevTools Network tab to discover how authentication was bypassed."
+      },
+      "unlocked_at": null,
+      "completed_at": null,
+      "attempt_count": 0,
+      "score": 0
+    },
+    {
+      "id": "tt_team_1789471380708_791_8",
+      "team_id": "team_1789471380708_791",
+      "task_id": 8,
+      "unique_flag": "Q7mP-82Lx-K4",
+      "dynamic_data": {
+        "visitorId": "VST-4821",
+        "archiveRef": "ARCH-27",
+        "targetRoute": "/college",
+        "flag": "Q7mP-82Lx-K4",
+        "storyContext": "Investigate transaction logs showing visitor COLLEGE-WEB at 03:17:42. Open /college, use visitor ID VST-4821, analyze Network request transformations, and locate archive ARCH-27 to restore the record and recover the Task 8 flag."
+      },
+      "unlocked_at": null,
+      "completed_at": null,
+      "attempt_count": 0,
+      "score": 0
+    },
+    {
+      "id": "tt_team_1789471380708_791_9",
+      "team_id": "team_1789471380708_791",
+      "task_id": 9,
+      "unique_flag": "K7pQ-82Lm-X4",
+      "dynamic_data": {
+        "targetEmployeeId": "EMP-4817",
+        "targetRoute": "/employees",
+        "recoveryCode": "R4-91-X",
+        "investigationRef": "CASE-4817",
+        "flag": "K7pQ-82Lm-X4",
+        "storyContext": "Inspect /employees, search EMP-4817, analyze browser Local Storage state transitions (directory_mode = archive), restore record with recovery code R4-91-X, and extract the Task 9 flag."
+      },
+      "unlocked_at": null,
+      "completed_at": null,
+      "attempt_count": 0,
+      "score": 0
+    },
+    {
+      "id": "tt_team_1789471380708_791_10",
+      "team_id": "team_1789471380708_791",
       "task_id": 10,
       "unique_flag": "X9Q-7MK-42P-L8",
       "dynamic_data": {

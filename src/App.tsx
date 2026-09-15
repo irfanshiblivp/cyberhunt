@@ -165,7 +165,7 @@ export const App: React.FC = () => {
           />
         )
       ) : team ? (
-        gameState.status === 'WAITING' ? (
+        (gameState.status === 'WAITING' || gameState.status === 'COUNTDOWN') ? (
           <LobbyPage
             team={team}
             totalTeamsReady={gameState.total_teams || 1}

@@ -698,17 +698,23 @@ router.post('/admin/game/:action', adminAuth, (req, res) => {
   const state = db.getGameState();
 
   if (action === 'start') {
-    const countdownStart = Date.now();
-    db.updateGameState({ status: 'COUNTDOWN', countdown_start: countdownStart });
-    if (req.io) req.io.emit('game:countdown_start', { countdownStart });
+    const startedAt = Date.now();
+    db.updateGameState({ status: 'RUNNING', started_at: startedAt, countdown_start: null });
 
-    setTimeout(() => {
-      const startedAt = Date.now();
-      db.updateGameState({ status: 'RUNNING', started_at: startedAt, countdown_start: null });
-      if (req.io) req.io.emit('game:started', { startedAt, status: 'RUNNING' });
-    }, 3500);
+    // Unlock Task 1 for all registered teams
+    const teams = db.getTeams();
+    teams.forEach(t => {
+      const t1 = db.getTeamTask(t.id, 1);
+      if (t1 && !t1.unlocked_at) {
+        db.updateTeamTask(t.id, 1, { unlocked_at: new Date().toISOString() });
+      }
+    });
 
-    return res.json({ success: true, message: 'Game countdown initiated.' });
+    if (req.io) {
+      req.io.emit('game:started', { startedAt, status: 'RUNNING' });
+    }
+
+    return res.json({ success: true, message: 'Game started cleanly. All teams transitioned to Task 1.' });
   }
 
   if (action === 'pause') {
