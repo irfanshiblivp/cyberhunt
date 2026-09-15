@@ -1,0 +1,7 @@
+User-agent: *
+Disallow: /admin/
+Disallow: /config/
+Disallow: /evidence-archive-vault/
+
+# CYBER HUNT '26 BANK ROBBERY AUXILIARY VAULT
+# RECOVERED TASK 4 FLAG: 5971-D1C0-4BED

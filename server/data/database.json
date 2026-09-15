@@ -1,0 +1,111 @@
+{
+  "game_state": {
+    "id": 1,
+    "status": "WAITING",
+    "started_at": null,
+    "paused_at": null,
+    "ended_at": null,
+    "total_pause_duration": 0,
+    "countdown_start": null,
+    "is_leaderboard_visible": true
+  },
+  "tasks": [
+    {
+      "id": 1,
+      "number": 1,
+      "title": "The Torn Message",
+      "subtitle": "Evidence #1: Crime Scene Jigsaw",
+      "description": "Twelve pieces of a torn photo/document were recovered from the bank crime scene. Reconstruct the 12 jigsaw pieces to reveal the key word.",
+      "points": 50,
+      "difficulty": "Easy"
+    },
+    {
+      "id": 2,
+      "number": 2,
+      "title": "The Encoded Word",
+      "subtitle": "Evidence #2: Encoded Key Stream",
+      "description": "The keyword from the torn message leads to a second piece of evidence containing an encoded message. Identify the encoding to reveal the flag.",
+      "points": 60,
+      "difficulty": "Easy"
+    },
+    {
+      "id": 3,
+      "number": 3,
+      "title": "The Decoded Text",
+      "subtitle": "Evidence #3: Visit /K7mQ-4vNp-X2",
+      "description": "The decoded key from Task 2 directs you to open page /K7mQ-4vNp-X2. Open the page and inspect its HTML source code to uncover the hidden clue.",
+      "points": 70,
+      "difficulty": "Easy"
+    },
+    {
+      "id": 4,
+      "number": 4,
+      "title": "The Hidden Archive",
+      "subtitle": "Evidence #4: Web Discovery & robots.txt",
+      "description": "The HTML clue leads to a hidden location. Inspect /robots.txt to discover the disallow directory hiding the bank's auxiliary vault evidence.",
+      "points": 80,
+      "difficulty": "Easy-Medium"
+    },
+    {
+      "id": 5,
+      "number": 5,
+      "title": "The Bank Statement",
+      "subtitle": "Evidence #5: Obfuscated Transaction Log",
+      "description": "Inside the auxiliary vault, an intercepted transaction payload has been multi-encoded to conceal the key stream. Analyze and reverse the transformation layers to extract the Task 5 flag.",
+      "points": 90,
+      "difficulty": "Medium"
+    },
+    {
+      "id": 6,
+      "number": 6,
+      "title": "The Security Camera",
+      "subtitle": "Evidence #6: Image Timestamp Analysis",
+      "description": "Analyze security photo image.jpg recovered from the bank security system. Download image.jpg and find the exact time the photo was taken (HH:MM:SS).",
+      "points": 100,
+      "difficulty": "Medium"
+    },
+    {
+      "id": 7,
+      "number": 7,
+      "title": "The Bank's Login System",
+      "subtitle": "Evidence #7: Authentication Logic Analysis",
+      "description": "The robbers managed to access the bank's internal system. Access /login and inspect the HTTP request/response flow using Chrome/Edge DevTools (Network tab) to discover how the authentication logic was bypassed.",
+      "points": 120,
+      "difficulty": "Hard"
+    },
+    {
+      "id": 8,
+      "number": 8,
+      "title": "The Visitor That Never Existed",
+      "subtitle": "Evidence #8: Campus Visitor Logic Analysis",
+      "description": "Investigate transaction logs showing visitor COLLEGE-WEB at 03:17:42. Open /college, check visitor VST-4821, analyze request transformations, and locate archive ARCH-27 to restore the record and recover the Task 8 flag.",
+      "points": 150,
+      "difficulty": "Hard"
+    },
+    {
+      "id": 9,
+      "number": 9,
+      "title": "The Vanishing Employee",
+      "subtitle": "Evidence #9: Browser Storage & State Transition",
+      "description": "Investigate missing employee EMP-4817 at /employees. Analyze browser Local Storage state transitions (directory_mode = archive) and execute recovery code R4-91-X to restore the record and extract the Task 9 flag.",
+      "points": 180,
+      "difficulty": "Hard+"
+    },
+    {
+      "id": 10,
+      "number": 10,
+      "title": "The Robbers' Vault Core",
+      "subtitle": "Evidence #10: Multi-Layer Cryptographic & Forensic Analysis",
+      "description": "Reconstruct the 10-stage cyber investigation. Triangulate primary evidence parameters (Task 5 TX ID, Task 8 Transfer/Archive ID, Task 9 Case Ref), perform double-Base64 decoding, XOR key stream extraction, and Master Access Code override to unlock BLACK_BOX_10.",
+      "points": 250,
+      "difficulty": "Extreme Final"
+    }
+  ],
+  "teams": [],
+  "team_tasks": [],
+  "submissions": [],
+  "admin": {
+    "username": "cyb_26",
+    "password": "CeMCyb@26"
+  }
+}
