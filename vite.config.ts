@@ -16,6 +16,11 @@ export default defineConfig({
         target: 'http://localhost:3001',
         ws: true,
         changeOrigin: true,
+        configure: (proxy, _options) => {
+          proxy.on('error', (err, _req, _res) => {
+            // Suppress websocket reset noise during dev HMR
+          });
+        },
       },
       '/K7mQ-4vNp-X2': {
         target: 'http://localhost:3001',
