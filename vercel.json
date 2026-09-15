@@ -2,6 +2,18 @@
   "version": 2,
   "rewrites": [
     {
+      "source": "/api/(.*)",
+      "destination": "/api/index.js"
+    },
+    {
+      "source": "/robots.txt",
+      "destination": "/api/index.js"
+    },
+    {
+      "source": "/K7mQ-4vNp-X2",
+      "destination": "/api/index.js"
+    },
+    {
       "source": "/(.*)",
       "destination": "/index.html"
     }
