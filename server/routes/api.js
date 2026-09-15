@@ -494,7 +494,7 @@ router.post('/college/visitor-check', (req, res) => {
   let teamId = req.headers['x-team-id'] || req.body.team_id || 'default';
   const { visitor_id } = req.body;
 
-  let teamTask = teamId !== 'default' ? db.getTeamTask(teamId, 7) : null;
+  let teamTask = teamId !== 'default' ? db.getTeamTask(teamId, 8) : null;
   let flag = teamTask ? teamTask.unique_flag : 'Q7mP-82Lx-K4';
 
   const isRestored = restoredCollegeArchives.has(`${teamId}_ARCH-27`);
