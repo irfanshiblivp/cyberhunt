@@ -129,6 +129,16 @@ app.get('*', (req, res) => {
 const PORT = process.env.PORT || 3001;
 const HOST = '0.0.0.0';
 
+server.on('error', (err) => {
+  if (err.code === 'EADDRINUSE') {
+    console.error(`\n⚠️  [PORT CONFLICT] Port ${PORT} is already in use by another running Node process.`);
+    console.error(`👉 Run 'Stop-Process -Name node -Force' in PowerShell to close lingering servers.\n`);
+    process.exit(1);
+  } else {
+    throw err;
+  }
+});
+
 server.listen(PORT, HOST, () => {
   console.log(`
 ======================================================
