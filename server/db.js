@@ -274,7 +274,20 @@ class HybridDB {
     }
   }
 
+  reloadIfChanged() {
+    try {
+      if (fs.existsSync(DB_FILE)) {
+        const raw = fs.readFileSync(DB_FILE, 'utf8');
+        const fresh = JSON.parse(raw);
+        if (fresh && fresh.game_state) {
+          this.data = fresh;
+        }
+      }
+    } catch (e) {}
+  }
+
   getGameState() {
+    this.reloadIfChanged();
     return this.data.game_state;
   }
 
@@ -302,14 +315,17 @@ class HybridDB {
   }
 
   getTeams() {
+    this.reloadIfChanged();
     return this.data.teams;
   }
 
   getTeamById(id) {
+    this.reloadIfChanged();
     return this.data.teams.find(t => t.id === id);
   }
 
   getTeamByCode(teamCode) {
+    this.reloadIfChanged();
     return this.data.teams.find(t => t.team_code.toUpperCase() === teamCode.toUpperCase());
   }
 
@@ -346,10 +362,12 @@ class HybridDB {
   }
 
   getTeamTasks(teamId) {
+    this.reloadIfChanged();
     return this.data.team_tasks.filter(tt => tt.team_id === teamId);
   }
 
   getTeamTask(teamId, taskId) {
+    this.reloadIfChanged();
     return this.data.team_tasks.find(tt => tt.team_id === teamId && tt.task_id === Number(taskId));
   }
 
@@ -376,6 +394,7 @@ class HybridDB {
   }
 
   getSubmissions(teamId = null) {
+    this.reloadIfChanged();
     if (teamId) {
       return this.data.submissions.filter(s => s.team_id === teamId);
     }
