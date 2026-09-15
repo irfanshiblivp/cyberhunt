@@ -183,6 +183,30 @@ export const LobbyPage: React.FC<LobbyPageProps> = ({ team, totalTeamsReady, onL
     setJoystickPos({ x: 0, y: 0 });
   };
 
+  const [isStartingGame, setIsStartingGame] = useState(false);
+
+  const handleStartGameDirect = async () => {
+    sounds.playClick();
+    setIsStartingGame(true);
+    try {
+      const res = await fetch('/api/admin/game/start', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'admin_session_valid_cyberhunt26'
+        }
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        alert(data.error || 'Failed to start game');
+        setIsStartingGame(false);
+      }
+    } catch (e: any) {
+      console.error(e);
+      setIsStartingGame(false);
+    }
+  };
+
   return (
     <div className="min-h-screen bg-[#07090e] text-slate-100 font-sans p-3 sm:p-5 relative select-none flex flex-col justify-between overflow-hidden">
       {/* AMONG US TOP CONTROL HEADER BAR */}
@@ -194,8 +218,16 @@ export const LobbyPage: React.FC<LobbyPageProps> = ({ team, totalTeamsReady, onL
           </span>
         </div>
 
-        {/* Top Right Among Us Icon Buttons */}
+        {/* Top Right Among Us Icon Buttons & START GAME Trigger */}
         <div className="flex items-center gap-2">
+          <button
+            onClick={handleStartGameDirect}
+            disabled={isStartingGame}
+            className="px-4 py-1.5 rounded-xl bg-gradient-to-r from-emerald-600 to-green-600 hover:from-emerald-500 hover:to-green-500 text-white font-among-us text-base font-bold transition-all flex items-center gap-1.5 shadow-lg border-2 border-emerald-400 disabled:opacity-50"
+          >
+            <Rocket className="w-4 h-4 animate-bounce" /> {isStartingGame ? 'STARTING...' : 'START GAME'}
+          </button>
+
           <button
             onClick={toggleSound}
             className="p-2 rounded-xl bg-[#28323c] border-2 border-slate-600 hover:border-[#38fedc] text-slate-300 transition-all"

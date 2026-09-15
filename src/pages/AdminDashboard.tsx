@@ -174,12 +174,8 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({ onLogout }) => {
           <div className="grid grid-cols-2 gap-3 pt-2 font-chakra">
             <button
               disabled={gameState?.status === 'RUNNING' || gameState?.status === 'PAUSED'}
-              onClick={() => setConfirmModal({
-                action: 'start',
-                title: 'START CYBER HUNT \'26?',
-                desc: 'This will start the official competition clock, broadcast the launch countdown to all registered crewmates, and unlock Chapter 1.'
-              })}
-              className="py-3 px-4 bg-gradient-to-r from-emerald-600 to-green-700 hover:from-emerald-500 hover:to-green-600 disabled:opacity-40 text-white font-extrabold text-xs rounded-xl shadow-lg flex items-center justify-center gap-2 uppercase tracking-wider"
+              onClick={() => handleGameAction('start')}
+              className="py-3 px-4 bg-gradient-to-r from-emerald-600 to-green-700 hover:from-emerald-500 hover:to-green-600 disabled:opacity-40 text-white font-extrabold text-xs rounded-xl shadow-lg flex items-center justify-center gap-2 uppercase tracking-wider transition-all"
             >
               <Play className="w-4 h-4 fill-current" /> Start Game
             </button>
