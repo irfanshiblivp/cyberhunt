@@ -290,18 +290,7 @@ export const LobbyPage: React.FC<LobbyPageProps> = ({ team, totalTeamsReady, onL
             </div>
           </div>
 
-          {/* AMONG US LEFT RULES OVERLAY PANEL */}
-          <div className="absolute top-12 left-10 z-20 bg-black/60 backdrop-blur-md border-2 border-slate-700 rounded-2xl p-3.5 text-slate-200 font-mono-code text-[11px] space-y-1.5 shadow-xl max-w-[220px]">
-            <div className="flex items-center gap-1.5 text-[#38fedc] font-bold font-among-us text-sm">
-              <Settings className="w-4 h-4" /> GAME SETTINGS
-            </div>
-            <div className="space-y-1 text-[10px] text-slate-300">
-              <div>⚙️ # Impostors set to 0 (Co-Op)</div>
-              <div>⚙️ Player Speed set to 1.5x</div>
-              <div>⚙️ Tasks set to 10 Chapters</div>
-              <div>⚙️ Sequential Unlock set to On</div>
-            </div>
-          </div>
+
 
           {/* AMONG US RIGHT ROOM CODE & CAPACITY TABLET (MATCHING UPLOADED SCREENSHOT) */}
           <div className="absolute top-12 right-10 z-20 bg-[#161e27]/90 backdrop-blur-md border-3 border-[#323f4d] rounded-2xl p-4 text-white font-among-us shadow-2xl space-y-3 min-w-[210px]">
