@@ -356,19 +356,27 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({ onLogout }) => {
 
             {/* Timeline Breakdown */}
             <div className="space-y-3 font-mono-code text-xs">
-              <h4 className="font-bold text-cyber-cyan uppercase font-chakra">Task Completion Timeline:</h4>
+              <h4 className="font-bold text-cyber-cyan uppercase font-chakra">Task Completion & Time Records:</h4>
               <div className="divide-y divide-slate-800 border border-slate-800 rounded-xl p-3 bg-slate-950">
                 {(!teamDetailData.submissions || teamDetailData.submissions.filter((sub: any) => sub.is_correct).length === 0) ? (
-                  <p className="text-slate-500 py-2 text-center font-chakra">No completed tasks recorded yet.</p>
+                  <p className="text-slate-500 py-3 text-center font-chakra">No completed tasks recorded yet.</p>
                 ) : (
                   teamDetailData.submissions.filter((sub: any) => sub.is_correct).map((sub: any, idx: number) => (
-                    <div key={idx} className="py-2 flex justify-between items-center text-[11px]">
-                      <div>
-                        <span className="text-white font-bold font-chakra">Chapter {sub.task_id}</span> —{' '}
-                        <span className="text-cyber-neon font-bold">VERIFIED & SOLVED</span>
+                    <div key={idx} className="py-2.5 flex flex-col sm:flex-row sm:items-center justify-between gap-1 text-[11px]">
+                      <div className="flex items-center gap-2">
+                        <span className="w-5 h-5 rounded-full bg-emerald-950 border border-emerald-500 text-emerald-400 flex items-center justify-center font-bold text-[10px]">
+                          ✓
+                        </span>
+                        <span className="text-white font-bold font-chakra">Task #{sub.task_id}</span>
+                        <span className="text-slate-400 font-mono-code text-[10px]">({sub.submitted_flag})</span>
                       </div>
-                      <div className="text-slate-400">
-                        Elapsed: {sub.time_from_start} | Solved At: {new Date(sub.submitted_at).toLocaleTimeString()}
+                      <div className="text-slate-300 font-mono-code flex items-center gap-3">
+                        <span className="text-cyber-cyan font-bold bg-cyan-950/80 px-2 py-0.5 rounded border border-cyan-800/60">
+                          ⏱️ Elapsed: {sub.time_from_start}
+                        </span>
+                        <span className="text-slate-400 text-[10px]">
+                          🕒 {new Date(sub.submitted_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' })}
+                        </span>
                       </div>
                     </div>
                   ))

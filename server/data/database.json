@@ -1,10 +1,10 @@
 {
   "game_state": {
     "id": 1,
-    "status": "RUNNING",
-    "started_at": 1789468918411,
+    "status": "ENDED",
+    "started_at": 1789472066661,
     "paused_at": null,
-    "ended_at": null,
+    "ended_at": 1789472101909,
     "total_pause_duration": 0,
     "countdown_start": null,
     "is_leaderboard_visible": true
@@ -103,52 +103,52 @@
   ],
   "teams": [
     {
-      "id": "team_1789468890597_771",
-      "team_code": "TEAM-OFY0",
-      "access_code": "68C-2KQ-QXW",
-      "team_name": "fghjkl",
-      "member1": "vbnm,",
-      "member2": "ghjk",
-      "member3": "hm",
+      "id": "team_1789472038275_165",
+      "team_code": "TEAM-7JLC",
+      "access_code": "6YN-OHK-LUY",
+      "team_name": "fdghj",
+      "member1": "fghjk",
+      "member2": "fghj",
+      "member3": "gthjk",
       "color": "cyan",
-      "created_at": "2026-09-15T10:41:30.597Z",
+      "created_at": "2026-09-15T11:33:58.275Z",
       "status": "WAITING",
-      "active_session_token": "sess_1789468890597_490193",
+      "active_session_token": "sess_1789472038275_236977",
       "score": 0
     },
     {
-      "id": "team_1789470006487_506",
-      "team_code": "TEAM-Z1UB",
-      "access_code": "KM9-KRE-KIU",
-      "team_name": "fdhh",
-      "member1": "hfdf",
-      "member2": "fhddf",
-      "member3": "hdff",
+      "id": "team_1789472046661_216",
+      "team_code": "TEAM-HVS7",
+      "access_code": "TI0-SAL-G1E",
+      "team_name": "Ahajaj",
+      "member1": "Snsjaj",
+      "member2": "Shsjks",
+      "member3": "Sjsjsk",
       "color": "red",
-      "created_at": "2026-09-15T11:00:06.487Z",
+      "created_at": "2026-09-15T11:34:06.665Z",
       "status": "WAITING",
-      "active_session_token": "sess_1789470006487_128802",
+      "active_session_token": "sess_1789472046661_965932",
       "score": 0
     },
     {
-      "id": "team_1789471380708_791",
-      "team_code": "TEAM-HLSH",
-      "access_code": "6PS-ICL-5F5",
-      "team_name": "defghjk",
-      "member1": "tyuio",
-      "member2": "fghjk",
-      "member3": "dfghjk",
+      "id": "team_1789472053270_689",
+      "team_code": "TEAM-78ZU",
+      "access_code": "XPH-ZGJ-855",
+      "team_name": "Jdjdjd",
+      "member1": "Kdjd",
+      "member2": "Jdjd",
+      "member3": "Jfjd",
       "color": "lime",
-      "created_at": "2026-09-15T11:23:00.710Z",
+      "created_at": "2026-09-15T11:34:13.271Z",
       "status": "WAITING",
-      "active_session_token": "sess_1789471380710_915635",
+      "active_session_token": "sess_1789472053271_608321",
       "score": 0
     }
   ],
   "team_tasks": [
     {
-      "id": "tt_team_1789468890597_771_1",
-      "team_id": "team_1789468890597_771",
+      "id": "tt_team_1789472038275_165_1",
+      "team_id": "team_1789472038275_165",
       "task_id": 1,
       "unique_flag": "SzdtUS00dk5wLVgy",
       "dynamic_data": {
@@ -157,82 +157,77 @@
         "piecesCount": 12,
         "storyContext": "Twelve pieces of a torn photo/document were recovered from the bank crime scene. Put the evidence back together to reveal the word."
       },
-      "unlocked_at": "2026-09-15T10:41:30.607Z",
-      "completed_at": "2026-09-15T10:42:35.656Z",
-      "attempt_count": 1,
-      "score": 0,
-      "time_from_start": "00:00:37"
+      "unlocked_at": "2026-09-15T11:33:58.288Z",
+      "completed_at": null,
+      "attempt_count": 0,
+      "score": 0
     },
     {
-      "id": "tt_team_1789468890597_771_2",
-      "team_id": "team_1789468890597_771",
+      "id": "tt_team_1789472038275_165_2",
+      "team_id": "team_1789472038275_165",
       "task_id": 2,
-      "unique_flag": "6556-5AD8-6C10",
+      "unique_flag": "85B6-E77F-274C",
       "dynamic_data": {
         "encodedTrace": "SzdtUS00dk5wLVgy",
-        "flag": "6556-5AD8-6C10",
+        "flag": "85B6-E77F-274C",
         "storyContext": "The word from the torn document led to an encoded message. Identify the encoding and decode it to reveal the Task 2 flag."
       },
-      "unlocked_at": "2026-09-15T10:42:35.666Z",
-      "completed_at": "2026-09-15T10:43:12.126Z",
-      "attempt_count": 1,
-      "score": 0,
-      "time_from_start": "00:01:13"
+      "unlocked_at": null,
+      "completed_at": null,
+      "attempt_count": 0,
+      "score": 0
     },
     {
-      "id": "tt_team_1789468890597_771_3",
-      "team_id": "team_1789468890597_771",
+      "id": "tt_team_1789472038275_165_3",
+      "team_id": "team_1789472038275_165",
       "task_id": 3,
-      "unique_flag": "6CEA-F289-5CC5",
+      "unique_flag": "25D6-C8E9-9E54",
       "dynamic_data": {
         "targetPage": "/K7mQ-4vNp-X2",
         "domAttribute": "data-bank-archive=\"/robots.txt\"",
-        "htmlComment": "<!-- BANK EVIDENCE CONTINUES AT: /robots.txt | CLUE KEY: 6CEA-F289-5CC5 -->",
+        "htmlComment": "<!-- BANK EVIDENCE CONTINUES AT: /robots.txt | CLUE KEY: 25D6-C8E9-9E54 -->",
         "displayText": "something hidden here",
         "storyContext": "Open page /K7mQ-4vNp-X2. It displays \"something hidden here\". Inspect the HTML source code of the page to reveal the hidden clue."
       },
-      "unlocked_at": "2026-09-15T10:43:12.138Z",
-      "completed_at": "2026-09-15T10:45:15.631Z",
-      "attempt_count": 1,
-      "score": 0,
-      "time_from_start": "00:03:17"
+      "unlocked_at": null,
+      "completed_at": null,
+      "attempt_count": 0,
+      "score": 0
     },
     {
-      "id": "tt_team_1789468890597_771_4",
-      "team_id": "team_1789468890597_771",
+      "id": "tt_team_1789472038275_165_4",
+      "team_id": "team_1789472038275_165",
       "task_id": 4,
-      "unique_flag": "A2EF-AACC-6F68",
+      "unique_flag": "36C6-BF6C-AE4A",
       "dynamic_data": {
-        "hiddenPath": "/evidence-archive-19b6b8",
-        "robotTxtContent": "User-agent: *\nDisallow: /admin/\nDisallow: /config/\nDisallow: /evidence-archive-19b6b8\n# BANK ROBBERY AUXILIARY ARCHIVE ROUTE",
-        "secretKey": "A2EF-AACC-6F68",
+        "hiddenPath": "/evidence-archive-fb9063",
+        "robotTxtContent": "User-agent: *\nDisallow: /admin/\nDisallow: /config/\nDisallow: /evidence-archive-fb9063\n# BANK ROBBERY AUXILIARY ARCHIVE ROUTE",
+        "secretKey": "36C6-BF6C-AE4A",
         "storyContext": "Inspect /robots.txt on the bank web server to discover the disallow directory hiding the auxiliary vault evidence."
       },
-      "unlocked_at": "2026-09-15T10:45:15.643Z",
-      "completed_at": "2026-09-15T10:46:41.527Z",
-      "attempt_count": 1,
-      "score": 0,
-      "time_from_start": "00:04:43"
+      "unlocked_at": null,
+      "completed_at": null,
+      "attempt_count": 0,
+      "score": 0
     },
     {
-      "id": "tt_team_1789468890597_771_5",
-      "team_id": "team_1789468890597_771",
+      "id": "tt_team_1789472038275_165_5",
+      "team_id": "team_1789472038275_165",
       "task_id": 5,
-      "unique_flag": "EAD5-0B5A-C262",
+      "unique_flag": "2C6E-F509-3F9F",
       "dynamic_data": {
-        "doubleBase64": "VkZKQlRsTkJRMVJKVDA1ZlJreEJSenBGUVVRMUxUQkNOVUV0UXpJMk1nPT0=",
-        "flag": "EAD5-0B5A-C262",
+        "doubleBase64": "VkZKQlRsTkJRMVJKVDA1ZlJreEJSem95UXpaRkxVWTFNRGt0TTBZNVJnPT0=",
+        "flag": "2C6E-F509-3F9F",
         "storyContext": "Inside the auxiliary vault is an intercepted transaction payload. Multiple layers of encoding were applied to conceal the sensitive key stream. Analyze and reverse the transformation to extract the Task 5 flag."
       },
-      "unlocked_at": "2026-09-15T10:46:41.540Z",
-      "completed_at": "2026-09-15T10:47:22.693Z",
-      "attempt_count": 1,
-      "score": 0,
-      "time_from_start": "00:05:24"
+      "unlocked_at": null,
+      "completed_at": null,
+      "attempt_count": 0,
+      "score": 0
     },
     {
-      "id": "tt_team_1789468890597_771_6",
-      "team_id": "team_1789468890597_771",
+      "id": "tt_team_1789472038275_165_6",
+      "team_id": "team_1789472038275_165",
       "task_id": 6,
       "unique_flag": "11:56:18",
       "dynamic_data": {
@@ -241,15 +236,14 @@
         "flag": "11:56:18",
         "storyContext": "Analyze security photo image.jpg recovered from the bank security system. Inspect its metadata/properties to find the exact time the photo was taken."
       },
-      "unlocked_at": "2026-09-15T10:47:22.739Z",
-      "completed_at": "2026-09-15T10:48:16.472Z",
-      "attempt_count": 1,
-      "score": 0,
-      "time_from_start": "00:06:18"
+      "unlocked_at": null,
+      "completed_at": null,
+      "attempt_count": 0,
+      "score": 0
     },
     {
-      "id": "tt_team_1789468890597_771_7",
-      "team_id": "team_1789468890597_771",
+      "id": "tt_team_1789472038275_165_7",
+      "team_id": "team_1789472038275_165",
       "task_id": 7,
       "unique_flag": "40A7-3D08-FDD9",
       "dynamic_data": {
@@ -257,15 +251,14 @@
         "flag": "40A7-3D08-FDD9",
         "storyContext": "The robbers managed to access the bank internal system. Access /login and inspect the HTTP request/response flow using DevTools Network tab to discover how authentication was bypassed."
       },
-      "unlocked_at": "2026-09-15T10:48:16.492Z",
-      "completed_at": "2026-09-15T10:49:23.117Z",
-      "attempt_count": 2,
-      "score": 0,
-      "time_from_start": "00:07:24"
+      "unlocked_at": null,
+      "completed_at": null,
+      "attempt_count": 0,
+      "score": 0
     },
     {
-      "id": "tt_team_1789468890597_771_8",
-      "team_id": "team_1789468890597_771",
+      "id": "tt_team_1789472038275_165_8",
+      "team_id": "team_1789472038275_165",
       "task_id": 8,
       "unique_flag": "Q7mP-82Lx-K4",
       "dynamic_data": {
@@ -275,14 +268,14 @@
         "flag": "Q7mP-82Lx-K4",
         "storyContext": "Investigate transaction logs showing visitor COLLEGE-WEB at 03:17:42. Open /college, use visitor ID VST-4821, analyze Network request transformations, and locate archive ARCH-27 to restore the record and recover the Task 8 flag."
       },
-      "unlocked_at": "2026-09-15T10:49:23.129Z",
+      "unlocked_at": null,
       "completed_at": null,
-      "attempt_count": 10,
+      "attempt_count": 0,
       "score": 0
     },
     {
-      "id": "tt_team_1789468890597_771_9",
-      "team_id": "team_1789468890597_771",
+      "id": "tt_team_1789472038275_165_9",
+      "team_id": "team_1789472038275_165",
       "task_id": 9,
       "unique_flag": "K7pQ-82Lm-X4",
       "dynamic_data": {
@@ -299,8 +292,8 @@
       "score": 0
     },
     {
-      "id": "tt_team_1789468890597_771_10",
-      "team_id": "team_1789468890597_771",
+      "id": "tt_team_1789472038275_165_10",
+      "team_id": "team_1789472038275_165",
       "task_id": 10,
       "unique_flag": "X9Q-7MK-42P-L8",
       "dynamic_data": {
@@ -314,8 +307,8 @@
       "score": 0
     },
     {
-      "id": "tt_team_1789470006487_506_1",
-      "team_id": "team_1789470006487_506",
+      "id": "tt_team_1789472046661_216_1",
+      "team_id": "team_1789472046661_216",
       "task_id": 1,
       "unique_flag": "SzdtUS00dk5wLVgy",
       "dynamic_data": {
@@ -324,54 +317,52 @@
         "piecesCount": 12,
         "storyContext": "Twelve pieces of a torn photo/document were recovered from the bank crime scene. Put the evidence back together to reveal the word."
       },
-      "unlocked_at": "2026-09-15T11:00:06.500Z",
-      "completed_at": "2026-09-15T11:00:32.902Z",
-      "attempt_count": 1,
-      "score": 0,
-      "time_from_start": "00:18:34"
-    },
-    {
-      "id": "tt_team_1789470006487_506_2",
-      "team_id": "team_1789470006487_506",
-      "task_id": 2,
-      "unique_flag": "C37D-3FBA-3593",
-      "dynamic_data": {
-        "encodedTrace": "SzdtUS00dk5wLVgy",
-        "flag": "C37D-3FBA-3593",
-        "storyContext": "The word from the torn document led to an encoded message. Identify the encoding and decode it to reveal the Task 2 flag."
-      },
-      "unlocked_at": "2026-09-15T11:00:32.913Z",
-      "completed_at": "2026-09-15T11:01:13.529Z",
-      "attempt_count": 2,
-      "score": 0,
-      "time_from_start": "00:19:15"
-    },
-    {
-      "id": "tt_team_1789470006487_506_3",
-      "team_id": "team_1789470006487_506",
-      "task_id": 3,
-      "unique_flag": "5740-EA01-5AB1",
-      "dynamic_data": {
-        "targetPage": "/K7mQ-4vNp-X2",
-        "domAttribute": "data-bank-archive=\"/robots.txt\"",
-        "htmlComment": "<!-- BANK EVIDENCE CONTINUES AT: /robots.txt | CLUE KEY: 5740-EA01-5AB1 -->",
-        "displayText": "something hidden here",
-        "storyContext": "Open page /K7mQ-4vNp-X2. It displays \"something hidden here\". Inspect the HTML source code of the page to reveal the hidden clue."
-      },
-      "unlocked_at": "2026-09-15T11:01:13.544Z",
+      "unlocked_at": "2026-09-15T11:34:07.732Z",
       "completed_at": null,
-      "attempt_count": 1,
+      "attempt_count": 0,
       "score": 0
     },
     {
-      "id": "tt_team_1789470006487_506_4",
-      "team_id": "team_1789470006487_506",
-      "task_id": 4,
-      "unique_flag": "9ADA-8448-2704",
+      "id": "tt_team_1789472046661_216_2",
+      "team_id": "team_1789472046661_216",
+      "task_id": 2,
+      "unique_flag": "554F-49CC-6566",
       "dynamic_data": {
-        "hiddenPath": "/evidence-archive-5e336a",
-        "robotTxtContent": "User-agent: *\nDisallow: /admin/\nDisallow: /config/\nDisallow: /evidence-archive-5e336a\n# BANK ROBBERY AUXILIARY ARCHIVE ROUTE",
-        "secretKey": "9ADA-8448-2704",
+        "encodedTrace": "SzdtUS00dk5wLVgy",
+        "flag": "554F-49CC-6566",
+        "storyContext": "The word from the torn document led to an encoded message. Identify the encoding and decode it to reveal the Task 2 flag."
+      },
+      "unlocked_at": null,
+      "completed_at": null,
+      "attempt_count": 0,
+      "score": 0
+    },
+    {
+      "id": "tt_team_1789472046661_216_3",
+      "team_id": "team_1789472046661_216",
+      "task_id": 3,
+      "unique_flag": "3336-8C75-3BD2",
+      "dynamic_data": {
+        "targetPage": "/K7mQ-4vNp-X2",
+        "domAttribute": "data-bank-archive=\"/robots.txt\"",
+        "htmlComment": "<!-- BANK EVIDENCE CONTINUES AT: /robots.txt | CLUE KEY: 3336-8C75-3BD2 -->",
+        "displayText": "something hidden here",
+        "storyContext": "Open page /K7mQ-4vNp-X2. It displays \"something hidden here\". Inspect the HTML source code of the page to reveal the hidden clue."
+      },
+      "unlocked_at": null,
+      "completed_at": null,
+      "attempt_count": 0,
+      "score": 0
+    },
+    {
+      "id": "tt_team_1789472046661_216_4",
+      "team_id": "team_1789472046661_216",
+      "task_id": 4,
+      "unique_flag": "ABEA-6E5A-B8D9",
+      "dynamic_data": {
+        "hiddenPath": "/evidence-archive-d26c32",
+        "robotTxtContent": "User-agent: *\nDisallow: /admin/\nDisallow: /config/\nDisallow: /evidence-archive-d26c32\n# BANK ROBBERY AUXILIARY ARCHIVE ROUTE",
+        "secretKey": "ABEA-6E5A-B8D9",
         "storyContext": "Inspect /robots.txt on the bank web server to discover the disallow directory hiding the auxiliary vault evidence."
       },
       "unlocked_at": null,
@@ -380,13 +371,13 @@
       "score": 0
     },
     {
-      "id": "tt_team_1789470006487_506_5",
-      "team_id": "team_1789470006487_506",
+      "id": "tt_team_1789472046661_216_5",
+      "team_id": "team_1789472046661_216",
       "task_id": 5,
-      "unique_flag": "7097-A228-6ECA",
+      "unique_flag": "51D6-93AE-A03B",
       "dynamic_data": {
-        "doubleBase64": "VkZKQlRsTkJRMVJKVDA1ZlJreEJSem8zTURrM0xVRXlNamd0TmtWRFFRPT0=",
-        "flag": "7097-A228-6ECA",
+        "doubleBase64": "VkZKQlRsTkJRMVJKVDA1ZlJreEJSem8xTVVRMkxUa3pRVVV0UVRBelFnPT0=",
+        "flag": "51D6-93AE-A03B",
         "storyContext": "Inside the auxiliary vault is an intercepted transaction payload. Multiple layers of encoding were applied to conceal the sensitive key stream. Analyze and reverse the transformation to extract the Task 5 flag."
       },
       "unlocked_at": null,
@@ -395,8 +386,8 @@
       "score": 0
     },
     {
-      "id": "tt_team_1789470006487_506_6",
-      "team_id": "team_1789470006487_506",
+      "id": "tt_team_1789472046661_216_6",
+      "team_id": "team_1789472046661_216",
       "task_id": 6,
       "unique_flag": "11:56:18",
       "dynamic_data": {
@@ -411,8 +402,8 @@
       "score": 0
     },
     {
-      "id": "tt_team_1789470006487_506_7",
-      "team_id": "team_1789470006487_506",
+      "id": "tt_team_1789472046661_216_7",
+      "team_id": "team_1789472046661_216",
       "task_id": 7,
       "unique_flag": "40A7-3D08-FDD9",
       "dynamic_data": {
@@ -426,8 +417,8 @@
       "score": 0
     },
     {
-      "id": "tt_team_1789470006487_506_8",
-      "team_id": "team_1789470006487_506",
+      "id": "tt_team_1789472046661_216_8",
+      "team_id": "team_1789472046661_216",
       "task_id": 8,
       "unique_flag": "Q7mP-82Lx-K4",
       "dynamic_data": {
@@ -443,8 +434,8 @@
       "score": 0
     },
     {
-      "id": "tt_team_1789470006487_506_9",
-      "team_id": "team_1789470006487_506",
+      "id": "tt_team_1789472046661_216_9",
+      "team_id": "team_1789472046661_216",
       "task_id": 9,
       "unique_flag": "K7pQ-82Lm-X4",
       "dynamic_data": {
@@ -461,23 +452,8 @@
       "score": 0
     },
     {
-      "id": "tt_team_1789470006487_506_10",
-      "team_id": "team_1789470006487_506",
-      "task_id": 10,
-      "unique_flag": "X9Q-7MK-42P-L8",
-      "dynamic_data": {
-        "targetRoute": "/dead-switch",
-        "flag": "X9Q-7MK-42P-L8",
-        "storyContext": "Open /dead-switch, correlate evidence timestamps, audio playback frequencies, steganography visual filters, and reconstruct the 5-part evidence chain to reveal final flag X9Q-7MK-42P-L8."
-      },
-      "unlocked_at": null,
-      "completed_at": null,
-      "attempt_count": 0,
-      "score": 0
-    },
-    {
-      "id": "tt_team_1789471380708_791_1",
-      "team_id": "team_1789471380708_791",
+      "id": "tt_team_1789472053270_689_1",
+      "team_id": "team_1789472053270_689",
       "task_id": 1,
       "unique_flag": "SzdtUS00dk5wLVgy",
       "dynamic_data": {
@@ -486,19 +462,19 @@
         "piecesCount": 12,
         "storyContext": "Twelve pieces of a torn photo/document were recovered from the bank crime scene. Put the evidence back together to reveal the word."
       },
-      "unlocked_at": "2026-09-15T11:23:00.721Z",
+      "unlocked_at": "2026-09-15T11:34:13.336Z",
       "completed_at": null,
       "attempt_count": 0,
       "score": 0
     },
     {
-      "id": "tt_team_1789471380708_791_2",
-      "team_id": "team_1789471380708_791",
+      "id": "tt_team_1789472053270_689_2",
+      "team_id": "team_1789472053270_689",
       "task_id": 2,
-      "unique_flag": "3D10-5373-BE29",
+      "unique_flag": "6663-4833-6787",
       "dynamic_data": {
         "encodedTrace": "SzdtUS00dk5wLVgy",
-        "flag": "3D10-5373-BE29",
+        "flag": "6663-4833-6787",
         "storyContext": "The word from the torn document led to an encoded message. Identify the encoding and decode it to reveal the Task 2 flag."
       },
       "unlocked_at": null,
@@ -507,14 +483,14 @@
       "score": 0
     },
     {
-      "id": "tt_team_1789471380708_791_3",
-      "team_id": "team_1789471380708_791",
+      "id": "tt_team_1789472053270_689_3",
+      "team_id": "team_1789472053270_689",
       "task_id": 3,
-      "unique_flag": "7519-0074-A2A3",
+      "unique_flag": "F002-F389-8C21",
       "dynamic_data": {
         "targetPage": "/K7mQ-4vNp-X2",
         "domAttribute": "data-bank-archive=\"/robots.txt\"",
-        "htmlComment": "<!-- BANK EVIDENCE CONTINUES AT: /robots.txt | CLUE KEY: 7519-0074-A2A3 -->",
+        "htmlComment": "<!-- BANK EVIDENCE CONTINUES AT: /robots.txt | CLUE KEY: F002-F389-8C21 -->",
         "displayText": "something hidden here",
         "storyContext": "Open page /K7mQ-4vNp-X2. It displays \"something hidden here\". Inspect the HTML source code of the page to reveal the hidden clue."
       },
@@ -524,14 +500,14 @@
       "score": 0
     },
     {
-      "id": "tt_team_1789471380708_791_4",
-      "team_id": "team_1789471380708_791",
+      "id": "tt_team_1789472053270_689_4",
+      "team_id": "team_1789472053270_689",
       "task_id": 4,
-      "unique_flag": "EBBF-BE90-622A",
+      "unique_flag": "96B6-F2F1-F656",
       "dynamic_data": {
-        "hiddenPath": "/evidence-archive-f99594",
-        "robotTxtContent": "User-agent: *\nDisallow: /admin/\nDisallow: /config/\nDisallow: /evidence-archive-f99594\n# BANK ROBBERY AUXILIARY ARCHIVE ROUTE",
-        "secretKey": "EBBF-BE90-622A",
+        "hiddenPath": "/evidence-archive-c7243f",
+        "robotTxtContent": "User-agent: *\nDisallow: /admin/\nDisallow: /config/\nDisallow: /evidence-archive-c7243f\n# BANK ROBBERY AUXILIARY ARCHIVE ROUTE",
+        "secretKey": "96B6-F2F1-F656",
         "storyContext": "Inspect /robots.txt on the bank web server to discover the disallow directory hiding the auxiliary vault evidence."
       },
       "unlocked_at": null,
@@ -540,13 +516,13 @@
       "score": 0
     },
     {
-      "id": "tt_team_1789471380708_791_5",
-      "team_id": "team_1789471380708_791",
+      "id": "tt_team_1789472053270_689_5",
+      "team_id": "team_1789472053270_689",
       "task_id": 5,
-      "unique_flag": "A7C6-30C5-4ED2",
+      "unique_flag": "EE21-84C3-F802",
       "dynamic_data": {
-        "doubleBase64": "VkZKQlRsTkJRMVJKVDA1ZlJreEJSenBCTjBNMkxUTXdRelV0TkVWRU1nPT0=",
-        "flag": "A7C6-30C5-4ED2",
+        "doubleBase64": "VkZKQlRsTkJRMVJKVDA1ZlJreEJSenBGUlRJeExUZzBRek10Umpnd01nPT0=",
+        "flag": "EE21-84C3-F802",
         "storyContext": "Inside the auxiliary vault is an intercepted transaction payload. Multiple layers of encoding were applied to conceal the sensitive key stream. Analyze and reverse the transformation to extract the Task 5 flag."
       },
       "unlocked_at": null,
@@ -555,8 +531,8 @@
       "score": 0
     },
     {
-      "id": "tt_team_1789471380708_791_6",
-      "team_id": "team_1789471380708_791",
+      "id": "tt_team_1789472053270_689_6",
+      "team_id": "team_1789472053270_689",
       "task_id": 6,
       "unique_flag": "11:56:18",
       "dynamic_data": {
@@ -571,8 +547,8 @@
       "score": 0
     },
     {
-      "id": "tt_team_1789471380708_791_7",
-      "team_id": "team_1789471380708_791",
+      "id": "tt_team_1789472053270_689_7",
+      "team_id": "team_1789472053270_689",
       "task_id": 7,
       "unique_flag": "40A7-3D08-FDD9",
       "dynamic_data": {
@@ -586,8 +562,8 @@
       "score": 0
     },
     {
-      "id": "tt_team_1789471380708_791_8",
-      "team_id": "team_1789471380708_791",
+      "id": "tt_team_1789472053270_689_8",
+      "team_id": "team_1789472053270_689",
       "task_id": 8,
       "unique_flag": "Q7mP-82Lx-K4",
       "dynamic_data": {
@@ -603,8 +579,8 @@
       "score": 0
     },
     {
-      "id": "tt_team_1789471380708_791_9",
-      "team_id": "team_1789471380708_791",
+      "id": "tt_team_1789472053270_689_9",
+      "team_id": "team_1789472053270_689",
       "task_id": 9,
       "unique_flag": "K7pQ-82Lm-X4",
       "dynamic_data": {
@@ -621,8 +597,8 @@
       "score": 0
     },
     {
-      "id": "tt_team_1789471380708_791_10",
-      "team_id": "team_1789471380708_791",
+      "id": "tt_team_1789472053270_689_10",
+      "team_id": "team_1789472053270_689",
       "task_id": 10,
       "unique_flag": "X9Q-7MK-42P-L8",
       "dynamic_data": {
@@ -636,228 +612,7 @@
       "score": 0
     }
   ],
-  "submissions": [
-    {
-      "id": "sub_1789468955645_459",
-      "team_id": "team_1789468890597_771",
-      "task_id": 1,
-      "submitted_flag": "SzdtUS00dk5wLVgy",
-      "is_correct": true,
-      "submitted_at": "2026-09-15T10:42:35.645Z",
-      "time_from_start": "00:00:37",
-      "time_from_prev": "00:00:37"
-    },
-    {
-      "id": "sub_1789468992110_559",
-      "team_id": "team_1789468890597_771",
-      "task_id": 2,
-      "submitted_flag": "K7mQ-4vNp-X2",
-      "is_correct": true,
-      "submitted_at": "2026-09-15T10:43:12.110Z",
-      "time_from_start": "00:01:13",
-      "time_from_prev": "00:00:36"
-    },
-    {
-      "id": "sub_1789469115619_792",
-      "team_id": "team_1789468890597_771",
-      "task_id": 3,
-      "submitted_flag": "6CEA-F289-5CC5",
-      "is_correct": true,
-      "submitted_at": "2026-09-15T10:45:15.619Z",
-      "time_from_start": "00:03:17",
-      "time_from_prev": "00:02:03"
-    },
-    {
-      "id": "sub_1789469201514_194",
-      "team_id": "team_1789468890597_771",
-      "task_id": 4,
-      "submitted_flag": "A2EF-AACC-6F68",
-      "is_correct": true,
-      "submitted_at": "2026-09-15T10:46:41.514Z",
-      "time_from_start": "00:04:43",
-      "time_from_prev": "00:01:25"
-    },
-    {
-      "id": "sub_1789469242667_98",
-      "team_id": "team_1789468890597_771",
-      "task_id": 5,
-      "submitted_flag": "EAD5-0B5A-C262",
-      "is_correct": true,
-      "submitted_at": "2026-09-15T10:47:22.667Z",
-      "time_from_start": "00:05:24",
-      "time_from_prev": "00:00:41"
-    },
-    {
-      "id": "sub_1789469296454_360",
-      "team_id": "team_1789468890597_771",
-      "task_id": 6,
-      "submitted_flag": "11:56:18",
-      "is_correct": true,
-      "submitted_at": "2026-09-15T10:48:16.454Z",
-      "time_from_start": "00:06:18",
-      "time_from_prev": "00:00:53"
-    },
-    {
-      "id": "sub_1789469302003_728",
-      "team_id": "team_1789468890597_771",
-      "task_id": 7,
-      "submitted_flag": "rtyuio",
-      "is_correct": false,
-      "submitted_at": "2026-09-15T10:48:22.003Z",
-      "time_from_start": "00:06:23",
-      "time_from_prev": "00:00:05"
-    },
-    {
-      "id": "sub_1789469363101_767",
-      "team_id": "team_1789468890597_771",
-      "task_id": 7,
-      "submitted_flag": "40A7-3D08-FDD9",
-      "is_correct": true,
-      "submitted_at": "2026-09-15T10:49:23.101Z",
-      "time_from_start": "00:07:24",
-      "time_from_prev": "00:01:01"
-    },
-    {
-      "id": "sub_1789469486592_170",
-      "team_id": "team_1789468890597_771",
-      "task_id": 8,
-      "submitted_flag": "40A7-3D08-FDD9",
-      "is_correct": false,
-      "submitted_at": "2026-09-15T10:51:26.592Z",
-      "time_from_start": "00:09:28",
-      "time_from_prev": "00:02:03"
-    },
-    {
-      "id": "sub_1789469494646_769",
-      "team_id": "team_1789468890597_771",
-      "task_id": 8,
-      "submitted_flag": "40A7-3D08-FDD9",
-      "is_correct": false,
-      "submitted_at": "2026-09-15T10:51:34.646Z",
-      "time_from_start": "00:09:36",
-      "time_from_prev": "00:00:08"
-    },
-    {
-      "id": "sub_1789469983619_723",
-      "team_id": "team_1789468890597_771",
-      "task_id": 8,
-      "submitted_flag": "40A7-3D08-FDD9",
-      "is_correct": false,
-      "submitted_at": "2026-09-15T10:59:43.619Z",
-      "time_from_start": "00:17:45",
-      "time_from_prev": "00:08:08"
-    },
-    {
-      "id": "sub_1789470032888_227",
-      "team_id": "team_1789470006487_506",
-      "task_id": 1,
-      "submitted_flag": "SzdtUS00dk5wLVgy",
-      "is_correct": true,
-      "submitted_at": "2026-09-15T11:00:32.888Z",
-      "time_from_start": "00:18:34",
-      "time_from_prev": "00:18:34"
-    },
-    {
-      "id": "sub_1789470056594_453",
-      "team_id": "team_1789470006487_506",
-      "task_id": 2,
-      "submitted_flag": "6556-5AD8-6C10",
-      "is_correct": false,
-      "submitted_at": "2026-09-15T11:00:56.594Z",
-      "time_from_start": "00:18:58",
-      "time_from_prev": "00:00:23"
-    },
-    {
-      "id": "sub_1789470073517_666",
-      "team_id": "team_1789470006487_506",
-      "task_id": 2,
-      "submitted_flag": "K7mQ-4vNp-X2",
-      "is_correct": true,
-      "submitted_at": "2026-09-15T11:01:13.517Z",
-      "time_from_start": "00:19:15",
-      "time_from_prev": "00:00:16"
-    },
-    {
-      "id": "sub_1789470093861_268",
-      "team_id": "team_1789470006487_506",
-      "task_id": 3,
-      "submitted_flag": "6CEA-F289-5CC5",
-      "is_correct": false,
-      "submitted_at": "2026-09-15T11:01:33.861Z",
-      "time_from_start": "00:19:35",
-      "time_from_prev": "00:00:20"
-    },
-    {
-      "id": "sub_1789470151548_485",
-      "team_id": "team_1789468890597_771",
-      "task_id": 8,
-      "submitted_flag": "5740-EA01-5AB1",
-      "is_correct": false,
-      "submitted_at": "2026-09-15T11:02:31.548Z",
-      "time_from_start": "00:20:33",
-      "time_from_prev": "00:02:47"
-    },
-    {
-      "id": "sub_1789470152502_848",
-      "team_id": "team_1789468890597_771",
-      "task_id": 8,
-      "submitted_flag": "5740-EA01-5AB1",
-      "is_correct": false,
-      "submitted_at": "2026-09-15T11:02:32.502Z",
-      "time_from_start": "00:20:34",
-      "time_from_prev": "00:00:00"
-    },
-    {
-      "id": "sub_1789470152720_795",
-      "team_id": "team_1789468890597_771",
-      "task_id": 8,
-      "submitted_flag": "5740-EA01-5AB1",
-      "is_correct": false,
-      "submitted_at": "2026-09-15T11:02:32.720Z",
-      "time_from_start": "00:20:34",
-      "time_from_prev": "00:00:00"
-    },
-    {
-      "id": "sub_1789470152937_167",
-      "team_id": "team_1789468890597_771",
-      "task_id": 8,
-      "submitted_flag": "5740-EA01-5AB1",
-      "is_correct": false,
-      "submitted_at": "2026-09-15T11:02:32.937Z",
-      "time_from_start": "00:20:34",
-      "time_from_prev": "00:00:00"
-    },
-    {
-      "id": "sub_1789470185652_88",
-      "team_id": "team_1789468890597_771",
-      "task_id": 8,
-      "submitted_flag": "6CEA-F289-5CC5",
-      "is_correct": false,
-      "submitted_at": "2026-09-15T11:03:05.652Z",
-      "time_from_start": "00:21:07",
-      "time_from_prev": "00:00:32"
-    },
-    {
-      "id": "sub_1789470186478_477",
-      "team_id": "team_1789468890597_771",
-      "task_id": 8,
-      "submitted_flag": "6CEA-F289-5CC5",
-      "is_correct": false,
-      "submitted_at": "2026-09-15T11:03:06.478Z",
-      "time_from_start": "00:21:08",
-      "time_from_prev": "00:00:00"
-    },
-    {
-      "id": "sub_1789470188156_346",
-      "team_id": "team_1789468890597_771",
-      "task_id": 8,
-      "submitted_flag": "6CEA-F289-5CC5",
-      "is_correct": false,
-      "submitted_at": "2026-09-15T11:03:08.156Z",
-      "time_from_start": "00:21:09",
-      "time_from_prev": "00:00:01"
-    }
-  ],
+  "submissions": [],
   "admin": {
     "username": "cyb_26",
     "password": "CeMCyb@26"

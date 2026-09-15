@@ -658,7 +658,9 @@ function calculateLeaderboard() {
       if (tTime > lastCompletionTime) lastCompletionTime = tTime;
     });
 
-    const elapsed = gameState.started_at ? getElapsedString(gameState.started_at, lastCompletionTime || Date.now(), gameState.total_pause_duration) : '00:00:00';
+    const elapsed = (completedTasks.length > 0 && lastCompletionTime > 0 && gameState.started_at)
+      ? getElapsedString(gameState.started_at, lastCompletionTime, gameState.total_pause_duration)
+      : '00:00:00';
 
     return {
       teamId: t.id,
